@@ -10,6 +10,4 @@ console.log(greet);
 
 const hours = prompt("Введіть кількість годин");
 const secund = hours * 3600;
-
-console.log(secund);
 alert(`${hours} годин дорівнює ${secund} секунд`);
