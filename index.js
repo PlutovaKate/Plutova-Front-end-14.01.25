@@ -22,10 +22,10 @@ console.log("Задача 2. Рішення 1:");
 let x = 3;
 let y = 5;
 
-let Addition = x + y;
-let Subtraction = x - y;
-let multiplication = x * y;
-let Division = x / y;
+let Addition = (x + y).toFixed(2);
+let Subtraction = (x - y).toFixed(2);
+let multiplication = (x * y).toFixed(2);
+let Division = (x / y).toFixed(2);
 
 console.log(`Сума чисел ${x} та ${y} дорівнює ${Addition}`);
 console.log(`Різниця чисел ${x} та ${y} дорівнює ${Subtraction}`);
@@ -39,10 +39,10 @@ console.log("Задача 2. Рішення 2:");
 let z = Number(prompt("Введи перше число для математичних розрахунків"));
 let q = Number(prompt("Введи друге число для математичних розрахунків"));
 
-let AdditionClient = z + q;
-let SubtractionClient = z - q;
-let multiplicationClient = z * q;
-let DivisionClient = z / q;
+let AdditionClient = (z + q).toFixed(2);
+let SubtractionClient = (z - q).toFixed(2);
+let multiplicationClient = (z * q).toFixed(2);
+let DivisionClient = (z / q).toFixed(2);
 
 let messageCalculate = `${z} + ${q} = ${AdditionClient};
 ${z} - ${q} = ${SubtractionClient};
