@@ -82,7 +82,7 @@ const num_1 = 6;
 const num_2 = 6;
 const num_3 = 8;
 
-const mean = (num_1 + num_2 + num_3) / 3;
+const mean = ((num_1 + num_2 + num_3) / 3).toFixed(2);
 console.log(
   `Середнє арифметичне чисел ${num_1}, ${num_2} та ${num_3} дорівнює`,
   mean
@@ -102,7 +102,7 @@ let numClient_3 = Number(
   prompt("Введіть третє число, щоб визначити середнє арифметичне")
 );
 
-const meanClient = (numClient_1 + numClient_2 + numClient_3) / 3;
+const meanClient = ((numClient_1 + numClient_2 + numClient_3) / 3).toFixed(2);
 
 console.log(
   `Середнє арифметичне чисел ${numClient_1}, ${numClient_2} та ${numClient_3} дорівнює`,
