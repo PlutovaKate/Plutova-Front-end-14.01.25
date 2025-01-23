@@ -123,13 +123,13 @@ alert(
 
 console.log("Задача 5. Рішення 1:");
 
-let число = 67589;
+let numbers = 67589;
 
-let first = Math.floor(число / 10000);
-let second = Math.floor(число / 1000) % 10;
-let third = Math.floor(число / 100) % 10;
-let fourth = Math.floor(число / 10) % 10;
-let fifth = число % 10;
+let first = Math.floor(numbers / 10000);
+let second = Math.floor(numbers / 1000) % 10;
+let third = Math.floor(numbers / 100) % 10;
+let fourth = Math.floor(numbers / 10) % 10;
+let fifth = numbers % 10;
 
 console.log(first, second, third, fourth, fifth);
 
