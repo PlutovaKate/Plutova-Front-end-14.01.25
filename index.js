@@ -123,6 +123,20 @@ alert(
 
 console.log("Задача 5. Рішення 1:");
 
+let число = 67589;
+
+let first = Math.floor(число / 10000);
+let second = Math.floor(число / 1000) % 10;
+let third = Math.floor(число / 100) % 10;
+let fourth = Math.floor(число / 10) % 10;
+let fifth = число % 10;
+
+console.log(first, second, third, fourth, fifth);
+
+// Рішення 2
+
+console.log("Задача 5. Рішення 2:");
+
 let number = "12345";
 let result = "";
 
@@ -135,9 +149,9 @@ for (let i = 0; i < number.length; i += 1) {
 }
 console.log(result);
 
-// Рішення 2 (без %):
+// Рішення 3 (без %):
 
-console.log("Задача 5. Рішення 2 (без %):");
+console.log("Задача 5. Рішення 3 (без %):");
 
 let anyNumber = 12345;
 if (anyNumber >= 10000 && anyNumber <= 99999) {
@@ -147,9 +161,9 @@ if (anyNumber >= 10000 && anyNumber <= 99999) {
   console.log("Введіть п'ятизначне число.");
 }
 
-// Рішення 3 (без %):
+// Рішення 4 (без %):
 
-console.log("Задача 5. Рішення 3 (без %):");
+console.log("Задача 5. Рішення 4 (без %):");
 
 let someNumber = 12345;
 someNumber = someNumber.toString();
