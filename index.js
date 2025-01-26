@@ -1,181 +1,267 @@
-///////////////////////////////////////////////////////////////////////////
-
 // Задача 1.
-// За допомогою prompt запитати як звуть користувача. За допомогою alert вивести "Hello, John! How are you?", де John це те, що ввів користувач
+//  Дано два різні числа. Визначити, яке з них більше, а яке менше.
 
-console.log("Задача 1");
+console.log("Задача 1.");
 
-let name = prompt("Як тебе звати?");
-let message = `Hello, ${name} ! How are you?`;
-console.log(message);
-alert(message);
-
-///////////////////////////////////////////////////////////////////////////
+const a = prompt("Введіть перше число, щоб перевірити нерівність");
+const b = prompt("Введіть друге число, щоб перевірити нерівність");
+if (a > b) {
+  console.log(`Число ${a} більше, ніж число ${b}`);
+} else if (a === b) {
+  console.log(`Число ${a} дорівнює числу ${b}`);
+} else {
+  console.log(`Число ${a} менше, ніж число ${b}`);
+}
 
 // Задача 2.
-// Створити скрипт для складання, віднімання, множення та поділу двох чисел та виведення результатів
-
-// Рішення 1:
+//  Відомі дві відстані. Одне у кілометрах, інше – у футах (1 фут = 0,305м). Яка відстань менша?
 
 console.log("Задача 2. Рішення 1:");
 
-let x = 3;
-let y = 5;
+const distance_1 = "100.05km";
+const distance_2 = "100.05ft";
 
-let Addition = (x + y).toFixed(2);
-let Subtraction = (x - y).toFixed(2);
-let multiplication = (x * y).toFixed(2);
-let Division = (x / y).toFixed(2);
+const normalizedDistance_1 = (Number.parseFloat(distance_1) * 1000).toFixed(2);
+const normalizedDistance_2 = (Number.parseFloat(distance_2) * 0.305).toFixed(2);
+console.log(`Відстань ${distance_1} дорівнює ${normalizedDistance_1} метрів`);
+console.log(`Відстань ${distance_2} дорівнює ${normalizedDistance_2} метрів`);
 
-console.log(`Сума чисел ${x} та ${y} дорівнює ${Addition}`);
-console.log(`Різниця чисел ${x} та ${y} дорівнює ${Subtraction}`);
-console.log(`Добуток чисел ${x} та ${y} дорівнює ${multiplication}`);
-console.log(`Частка чисел ${x} та ${y} дорівнює ${Division}`);
-
-// Рішення2:
+if (normalizedDistance_1 > normalizedDistance_2) {
+  console.log("Відстань у кілометрах більша, ніж у футах");
+} else console.log("Відстань у футах більша, ніж у кілометрах");
 
 console.log("Задача 2. Рішення 2:");
 
-let z = Number(prompt("Введи перше число для математичних розрахунків"));
-let q = Number(prompt("Введи друге число для математичних розрахунків"));
+const distance1 = prompt("Введіть довжину відстані у кілометрах");
+const distance2 = prompt("Введіть довжину відстані у футах");
 
-let AdditionClient = (z + q).toFixed(2);
-let SubtractionClient = (z - q).toFixed(2);
-let multiplicationClient = (z * q).toFixed(2);
-let DivisionClient = (z / q).toFixed(2);
+const normalizedDistance1 = (Number.parseFloat(distance1) * 1000).toFixed(2);
+const normalizedDistance2 = (Number.parseFloat(distance2) * 0.305).toFixed(2);
+console.log(`Відстань ${distance1} км дорівнює ${normalizedDistance1} метрів`);
+console.log(
+  `Відстань ${distance2} футів дорівнює ${normalizedDistance2} метрів`
+);
 
-let messageCalculate = `${z} + ${q} = ${AdditionClient};
-${z} - ${q} = ${SubtractionClient};
-${z} * ${q} = ${multiplicationClient};
-${z} / ${q} = ${DivisionClient}.`;
-console.log(messageCalculate);
-alert(messageCalculate);
+const compare =
+  normalizedDistance1 > normalizedDistance2
+    ? `Відстань ${distance1} км більша, ніж ${distance2} футів`
+    : `Відстань ${distance1} км менша, ніж ${distance2} футів`;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+console.log(compare);
+alert(compare);
 
-//Задача 3.
-//Створити скрипт, який отримує два значення і виводить true, якщо значення рівні, false - якщо ні
+// Задача 3.
+//  Визначити, чи є число s дільником числа d? І навпаки. (Дати дві відповіді)
 
-console.log("Задача 3");
+console.log("Задача 3.");
+d = prompt("Введіть число d");
+s = prompt(`Введіть число, а я перевірю чи є воно дільником числа ${d}`);
 
-let a = prompt("Введіть перше число для порівняння");
-let b = prompt("Введіть друге число для порівняння");
-const compare = a === b;
-if (compare) {
-  console.log(compare, "ці числа рівні");
-  alert("Ці числа рівні");
+if (d % s === 0) {
+  console.log(`Число ${s} є дільником числа ${d}`);
+  alert(`Число ${s} є дільником числа ${d}`);
 } else {
-  console.log(compare, "ці числа не рівні");
-  alert("Ці числа не рівні");
+  console.log(`Число ${s} НЕ є дільником числа ${d}`);
+  alert(`Число ${s} НЕ є дільником числа ${d}`);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//Задача 4.
-// Визначити середнє арифметичне трьох чисел
-
-// Рішення 1:
+// Задача 4.
+//  Дано число. Визначити, чи закінчується воно парною цифрою чи непарною? Вивести останню цифру.
 
 console.log("Задача 4. Рішення 1:");
+const f = 57607;
 
-const num_1 = 6;
-const num_2 = 6;
-const num_3 = 8;
+if (f % 2 === 0) {
+  console.log(`Число ${f} закінчується парною цифрою`);
+} else {
+  console.log(`Число ${f} закінчується не парною цифрою`);
+}
 
-const mean = ((num_1 + num_2 + num_3) / 3).toFixed(2);
-console.log(
-  `Середнє арифметичне чисел ${num_1}, ${num_2} та ${num_3} дорівнює`,
-  mean
-);
-
-// Рішення 2:
+const lastNumber = f % 10;
+console.log(`Остання цифта ${lastNumber}`);
 
 console.log("Задача 4. Рішення 2:");
+const g = prompt("Введіть число, а я перевірю чи є воно парним");
+const lastDigit = g % 10;
 
-let numClient_1 = Number(
-  prompt("Введіть перше число, щоб визначити середнє арифметичне")
-);
-let numClient_2 = Number(
-  prompt("Введіть друге число, щоб визначити середнє арифметичне")
-);
-let numClient_3 = Number(
-  prompt("Введіть третє число, щоб визначити середнє арифметичне")
-);
+const result =
+  g % 2 === 0
+    ? `Число ${g} закінчується парною цифрою ${lastDigit}`
+    : `Число ${g} закінчується не парною цифрою ${lastDigit}`;
 
-const meanClient = ((numClient_1 + numClient_2 + numClient_3) / 3).toFixed(2);
-
-console.log(
-  `Середнє арифметичне чисел ${numClient_1}, ${numClient_2} та ${numClient_3} дорівнює`,
-  meanClient
-);
-
-alert(
-  `Середнє арифметичне чисел ${numClient_1}, ${numClient_2} та ${numClient_3} дорівнює ${meanClient}`
-);
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
-
-//Задача 5.
-
-// Розкласти по цифрах п'ятизначне число і вивести у вихідному порядку через пробіл (використовувати оператор “розподіл по модулю” (%)
-
-// Рішення 1
-
-console.log("Задача 5. Рішення 1:");
-
-let numbers = 67589;
-
-let first = Math.floor(numbers / 10000);
-let second = Math.floor(numbers / 1000) % 10;
-let third = Math.floor(numbers / 100) % 10;
-let fourth = Math.floor(numbers / 10) % 10;
-let fifth = numbers % 10;
-
-console.log(first, second, third, fourth, fifth);
-
-// Рішення 2
-
-console.log("Задача 5. Рішення 2:");
-
-let number = "12345";
-let result = "";
-
-for (let i = 0; i < number.length; i += 1) {
-  result += number[i];
-
-  if ((i + 1) % 1 === 0) {
-    result += " ";
-  }
-}
 console.log(result);
+alert(result);
 
-// Рішення 3 (без %):
+// Задача 5.
+//  Дано двозначне число. Визначити, яка з його цифр більша: перша чи друга?
 
-console.log("Задача 5. Рішення 3 (без %):");
+console.log("Задача 5.");
+const numeral = prompt("Введіть двузначне число");
 
-let anyNumber = 12345;
-if (anyNumber >= 10000 && anyNumber <= 99999) {
-  anyNumber = anyNumber.toString().split("").join(" ");
-  console.log(anyNumber);
+if (99 >= numeral && numeral > 10) {
+  const firstNumeral = Math.floor(numeral / 10);
+  const secondNumeral = numeral % 10;
+
+  if (firstNumeral > secondNumeral) {
+    console.log(
+      `У числі ${numeral} перша цифра ${firstNumeral} більша, ніж друга ${secondNumeral}`
+    );
+    alert(
+      `У числі ${numeral} перша цифра ${firstNumeral} більша, ніж друга ${secondNumeral}`
+    );
+  } else if (firstNumeral === secondNumeral) {
+    console.log(
+      `У числі ${numeral} перша цифра ${firstNumeral} дорівнює другій ${secondNumeral}`
+    );
+    alert(
+      `У числі ${numeral} перша цифра ${firstNumeral} дорівнює другій ${secondNumeral}`
+    );
+  } else {
+    console.log(
+      `У числі ${numeral} перша цифра ${firstNumeral} менша, ніж друга ${secondNumeral}`
+    );
+    alert(
+      `У числі ${numeral} перша цифра ${firstNumeral} менша, ніж друга ${secondNumeral}`
+    );
+  }
 } else {
-  console.log("Введіть п'ятизначне число.");
+  console.log(`Число ${numeral} не є двозначним`);
+  alert(`Число ${numeral} не є двозначним`);
 }
 
-// Рішення 4 (без %):
+// Задача 6.
+//  Дано тризначне число.
+// Визначити чи є парною сума його цифр.
+// Визначити, чи кратна сума цифр п'яти.
+// Визначити чи є добуток його цифр більше 100.
 
-console.log("Задача 5. Рішення 4 (без %):");
+console.log("Задача 6.");
 
-let someNumber = 12345;
-someNumber = someNumber.toString();
-someNumber =
-  someNumber[0] +
-  " " +
-  someNumber[1] +
-  " " +
-  someNumber[2] +
-  " " +
-  someNumber[3] +
-  " " +
-  someNumber[4];
+const threeDigitNumber = prompt("Введіть тризначне число");
 
-console.log(someNumber);
+if (threeDigitNumber >= 100 && threeDigitNumber <= 999) {
+  const firstDigit = Math.floor(threeDigitNumber / 100);
+  const secondDigit = Math.floor((threeDigitNumber / 10) % 10);
+  const thirdDigit = threeDigitNumber % 10;
+
+  const sumDigit = firstDigit + secondDigit + thirdDigit;
+  const productDigit = firstDigit * secondDigit * thirdDigit;
+
+  if (sumDigit % 2 === 0) {
+    console.log(
+      `У числі ${threeDigitNumber} сума його цифр дорівнює ${sumDigit} і є парною`
+    );
+    alert(
+      `У числі ${threeDigitNumber} сума його цифр дорівнює ${sumDigit} і є парною`
+    );
+  } else {
+    console.log(
+      `У числі ${threeDigitNumber} сума його цифр дорівнює ${sumDigit} і є НЕ парною`
+    );
+    alert(
+      `У числі ${threeDigitNumber} сума його цифр дорівнює ${sumDigit} і є НЕ парною`
+    );
+  }
+
+  if (sumDigit % 5 === 0) {
+    console.log(
+      `У числі ${threeDigitNumber} сума його цифр дорівнює ${sumDigit} і є кратною 5`
+    );
+    alert(
+      `У числі ${threeDigitNumber} сума його цифр дорівнює ${sumDigit} і є кратною 5`
+    );
+  } else {
+    console.log(
+      `У числі ${threeDigitNumber} сума його цифр дорівнює ${sumDigit} і НЕ є кратною 5`
+    );
+    alert(
+      `У числі ${threeDigitNumber} сума його цифр дорівнює ${sumDigit} і НЕ є кратною 5`
+    );
+  }
+
+  if (productDigit > 100) {
+    console.log(
+      `У числі ${threeDigitNumber} добуток його цифр дорівнює ${productDigit} і є більше 100`
+    );
+    alert(
+      `У числі ${threeDigitNumber} добуток його цифр дорівнює ${productDigit} і є більше 100`
+    );
+  } else {
+    console.log(
+      `У числі ${threeDigitNumber} добуток його цифр дорівнює ${productDigit} і є менше 100`
+    );
+    alert(
+      `У числі ${threeDigitNumber} добуток його цифр дорівнює ${productDigit} і є менше 100`
+    );
+  }
+} else {
+  console.log("Ви ввели не тризначне число");
+  alert("Ви ввели не тризначне число");
+}
+
+// Задача 7. Дано тризначне число.
+// Чи правда, що всі цифри однакові?
+// Чи є серед цифр цифри однакові?
+
+console.log("Задача 7.");
+const threeDigitNum = prompt(
+  "Введіть тризначне число, а я перевірю чи всі цифри в ньому однакові"
+);
+
+const firstDigitNum = Math.floor(threeDigitNum / 100);
+const secondDigitNum = Math.floor((threeDigitNum / 10) % 10);
+const thirdDigitNum = threeDigitNum % 10;
+
+if (
+  firstDigitNum === secondDigitNum &&
+  firstDigitNum === thirdDigitNum &&
+  secondDigitNum === thirdDigitNum
+) {
+  console.log(`У числі ${threeDigitNum} всі цифри однакові`);
+  alert(`У числі ${threeDigitNum} всі цифри однакові`);
+} else if (
+  firstDigitNum === secondDigitNum ||
+  firstDigitNum === thirdDigitNum ||
+  secondDigitNum === thirdDigitNum
+) {
+  console.log(`У числі ${threeDigitNum} є однакові цифри`);
+  alert(`У числі ${threeDigitNum} є однакові цифри`);
+
+  if (firstDigitNum === secondDigitNum) {
+    console.log("однаковими є перше та друге число");
+    alert("однаковими є перше та друге число");
+  } else if (firstDigitNum === thirdDigitNum) {
+    console.log("однаковими є перше та третє число");
+    alert("однаковими є перше та третє число");
+  } else {
+    console.log("однаковими є друге та третє число");
+    alert("однаковими є друге та третє число");
+  }
+} else {
+  console.log(`У числі ${threeDigitNum} всі цифри різні`);
+  alert(`У числі ${threeDigitNum} всі цифри різні`);
+}
+
+// Задача 8.
+// Визначити, чи є задане шестизначне число дзеркальним? (123321, 147741)
+
+console.log("Задача 8.");
+
+const numberMirror = 123321;
+
+if (numberMirror >= 100000 && numberMirror <= 999999) {
+  const numberString = numberMirror.toString();
+  console.log(numberString);
+
+  if (
+    numberString[0] === numberString[5] &&
+    numberString[1] === numberString[4] &&
+    numberString[2] === numberString[3]
+  ) {
+    console.log(`Число ${numberMirror} є дзеркальним`);
+  } else {
+    console.log(`Число ${numberMirror} НЕ є дзеркальним`);
+  }
+} else {
+  console.log(`Число ${numberMirror} не є шестизначним`);
+}
