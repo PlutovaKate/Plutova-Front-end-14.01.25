@@ -1,78 +1,146 @@
-// ДЗ 9. Додаткова практика з циклами
+// ДЗ 10. Практика на роботу з масивами
 
-// Вивести числа від 20 до 30 через пропуск використовуючи крок 0,5 (20 20,5 21 21,5….)
+// Створити масив, довжину та елементи якого задає користувач. Потім відсортувати масив за зростанням.
+// Потім видалити елементи з масиву з 2 по 4 (включно). У міру змін виводити вміст масиву на сторінку.
 
-let str = "";
+// let numbers = prompt(
+//   "Введи будь-які числа через кому, а я відсортую їх за зростанням"
+// ).split(",");
 
-for (let i = 20; i <= 30; i += 0.5) {
-  str += i + " ";
-}
-console.log(
-  `Вивести числа від 20 до 30 через пропуск використовуючи крок 0,5 \n ${str}`
-);
-// Один долар коштує 40 гривень. Вивести дані з розрахунком вартості 10, 20, 30... 100 доларів
+// numbers.sort(function (a, b) {
+//   return a - b;
+// });
 
-let dollars = "";
-let rate = 40;
+// alert(`Введені числа відсортовані за зростанням ${numbers}`);
+// console.log(numbers);
 
-for (let i = 10; i <= 100; i += 10) {
-  dollars = i * rate;
-  console.log(`${i} доларів коштує ${dollars} грн`);
-}
+// numbers.splice(1, 3);
+// alert(`Я видалив елементи з масиву з 2 по 4 (включно) ${numbers}`);
+// console.log(numbers);
 
-// Дано ціле число. Вивести всі цілі числа від 1 до 100, квадрат яких не перевищує числа N
+// Дано масив [16,-37,54,-4,72,-56,47,4,-16,25,-37,46,4,-51,27,-63,4,-54,76,-4,12,-35,4,47]
+// Знайти суму та кількість позитивних елементів.
 
-let n = 1000;
-let pow = "";
-let powLess = "";
+let array = [
+  16, -37, 54, -4, 72, -56, 47, 4, -16, 25, -37, 46, 4, -51, 27, -63, 4, -54,
+  76, -4, 12, -35, 4, 47,
+];
 
-for (i = 1; i <= 100; i += 1) {
-  pow = i ** 2;
+console.log(array);
 
-  if (pow < n) {
-    powLess += i + ", ";
-  }
-}
-console.log(
-  `Дано ціле число ${n}. Вивести всі цілі числа від 1 до 100, квадрат яких не перевищує числа ${n}: \n ${powLess}`
-);
+let sumPositiveNum = 0;
+let positiveNumLength = 0;
 
-// Дано ціле число. З'ясувати, чи є воно простим
-//  (простим називається число, більше ніж 1, які не мають інших дільників крім 1 і себе).
-
-let number = 3;
-let isPrime = number > 1;
-
-if (number < 2) {
-  isPrime = false;
-} else {
-  for (let i = 2; i <= Math.sqrt(number); i += 1) {
-    if (number % i === 0) {
-      isPrime = false;
-      break;
-    }
+for (let i = 0; i < array.length; i++) {
+  if (array[i] > 0) {
+    sumPositiveNum += array[i];
+    positiveNumLength += 1;
   }
 }
 
 console.log(
-  isPrime ? `Число ${number} є простим ` : `Число ${number} НЕ є простим`
+  `Сума позитивних елементів масива дорівнює ${sumPositiveNum}, а кількість позитивних елементів ${positiveNumLength}`
 );
 
-// Дано деяке число. Ваше завдання – визначити, чи можна отримати це число, піднявши число 3 до певного
-// натурального ступеня. (Як приклад, числа 9 та 81 можна отримати цим способом, але 13 – ні.)
+// Знайти мінімальний елемент масиву та його порядковий номер.
 
-let num = 27;
-let power = 1;
-let isPowerOfThree = false;
+let min = Math.min.apply(null, array);
+let indexOfMin = array.indexOf(min);
 
-while (power <= num) {
-  if (power === num) {
-    isPowerOfThree = true;
-    break;
+console.log(
+  `Мінімальний елемент масиву ${min} його порядковий номер ${indexOfMin}`
+);
+
+// Знайти максимальний елемент масиву та його порядковий номер.
+
+let max = array[0];
+let indexOfMax;
+
+for (let i = 0; i < array.length; i++) {
+  if (max < array[i]) {
+    max = array[i];
+    indexOfMax = array.indexOf(max);
   }
-  power *= 3;
 }
 
 console.log(
-  isPowerOfThree ? `Число ${num} є степенем 3` : `Число ${num} не є степенем 3`
+  `Максимальний елемент масиву ${max} його порядковий номер ${indexOfMax}`
 );
+
+// Визначити кількість негативних елементів.
+
+let quantityOfNegative = 0;
+
+for (i = 0; i < array.length; i += 1) {
+  if (array[i] < 0) {
+    quantityOfNegative += 1;
+  }
+}
+
+console.log(`Кількість негативних елементів: ${quantityOfNegative}`);
+
+// Знайти кількість непарних позитивних елементів.
+
+let quantityOfUnpaired = 0;
+let arrayUnpairedPositive = [];
+
+for (i = 0; i < array.length; i += 1) {
+  if (array[i] > 0 && array[i] % 2 !== 0) {
+    arrayUnpairedPositive.push(array[i]);
+    quantityOfUnpaired = arrayUnpairedPositive.length;
+  }
+}
+
+console.log(`Кількість непарних позитивних елементів: ${quantityOfUnpaired}`);
+
+// Визначити кількість парних позитивних елементів.
+
+let arrayPairedPositiv = array.filter((item) => item > 0 && item % 2 === 0);
+let quantityOfPaired = arrayPairedPositiv.length;
+
+console.log(`Кількість парних позитивних елементів: ${quantityOfPaired}`);
+
+// Знайти суму парних позитивних елементів.
+
+let sumOfPairedPositiv = 0;
+
+for (i = 0; i < arrayPairedPositiv.length; i += 1) {
+  sumOfPairedPositiv += arrayPairedPositiv[i];
+}
+console.log(`Сума парних позитивних елементів: ${sumOfPairedPositiv}`);
+
+// Знайти суму непарних позитивних елементів.
+
+let sumOfUnpairedPositiv = 0;
+
+for (i = 0; i < arrayUnpairedPositive.length; i += 1) {
+  sumOfUnpairedPositiv += arrayUnpairedPositive[i];
+}
+
+console.log(`Сума непарних позитивних елементів: ${sumOfUnpairedPositiv}`);
+
+// Знайти добуток позитивних елементів.
+
+let multiplyPositive = 1;
+
+array.forEach((number) => {
+  if (number > 0) {
+    multiplyPositive *= number;
+  }
+});
+
+console.log(`Добуток позитивних елементів: ${multiplyPositive}`);
+
+// Знайти найбільший серед елементів масиву, решту занулити.
+
+let bigestElement = Math.max(...array);
+
+for (let i = 0; i < array.length; i++) {
+  if (array[i] !== bigestElement) {
+    array.splice(i, 1, 0);
+  }
+}
+
+console.log(`Найбільший серед елементів масиву: ${bigestElement}`);
+
+console.log(array);
