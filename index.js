@@ -1,146 +1,91 @@
-// ДЗ 10. Практика на роботу з масивами
+// ДЗ 11. Аналізуємо масив об’єктів
 
-// Створити масив, довжину та елементи якого задає користувач. Потім відсортувати масив за зростанням.
-// Потім видалити елементи з масиву з 2 по 4 (включно). У міру змін виводити вміст масиву на сторінку.
+// Дано масив об’єктів. Вивести масив телефонних номерів користувачів в яких баланс більше ніж 2000 доларів.
+// І знайти суму всіх балансів користувачів
 
-let numbers = prompt(
-  "Введи будь-які числа через кому, а я відсортую їх за зростанням"
-).split(",");
-
-numbers.sort(function (a, b) {
-  return a - b;
-});
-
-alert(`Введені числа відсортовані за зростанням ${numbers}`);
-console.log(numbers);
-
-numbers.splice(1, 3);
-alert(`Я видалив елементи з масиву з 2 по 4 (включно) ${numbers}`);
-console.log(numbers);
-
-// Дано масив [16,-37,54,-4,72,-56,47,4,-16,25,-37,46,4,-51,27,-63,4,-54,76,-4,12,-35,4,47]
-// Знайти суму та кількість позитивних елементів.
-
-let array = [
-  16, -37, 54, -4, 72, -56, 47, 4, -16, 25, -37, 46, 4, -51, 27, -63, 4, -54,
-  76, -4, 12, -35, 4, 47,
+let users = [
+  {
+    index: 0,
+    isActive: true,
+    balance: "$2,226.60",
+    name: "Eugenia Sawyer",
+    gender: "female",
+    phone: "+1 (840) 583-3207",
+    address: "949 John Street, Rose, Puerto Rico, 1857",
+  },
+  {
+    index: 1,
+    isActive: true,
+    balance: "$2,613.77",
+    name: "Pauline Gallegos",
+    gender: "female",
+    phone: "+1 (985) 593-3328",
+    address: "328 Greenpoint Avenue, Torboy, North Dakota, 6857",
+  },
+  {
+    index: 2,
+    isActive: false,
+    balance: "$3,976.41",
+    name: "Middleton Chaney",
+    gender: "male",
+    phone: "+1 (995) 591-2478",
+    address: "807 Fleet Walk, Brutus, Arkansas, 9783",
+  },
+  {
+    index: 3,
+    isActive: true,
+    balance: "$1,934.58",
+    name: "Burns Poole",
+    gender: "male",
+    phone: "+1 (885) 559-3422",
+    address: "730 Seba Avenue, Osage, Alabama, 6290",
+  },
+  {
+    index: 4,
+    isActive: true,
+    balance: "$3,261.65",
+    name: "Mcfadden Horne",
+    gender: "male",
+    phone: "+1 (942) 565-3988",
+    address: "120 Scholes Street, Kirk, Michigan, 1018",
+  },
+  {
+    index: 5,
+    isActive: false,
+    balance: "$1,790.56",
+    name: "Suzette Lewis",
+    gender: "female",
+    phone: "+1 (837) 586-3283",
+    address: "314 Dunne Place, Bawcomville, Guam, 9053",
+  },
 ];
 
-console.log(array);
+let balanceUser;
+let sumAllBalance = 0;
+let sumBiggerBalance = 0;
+let usersNumbers = [];
 
-let sumPositiveNum = 0;
-let positiveNumLength = 0;
+for (const key in users) {
+  balanceUser = Number(
+    users[key].balance.replaceAll(",", "").replaceAll("$", "")
+  );
 
-for (let i = 0; i < array.length; i++) {
-  if (array[i] > 0) {
-    sumPositiveNum += array[i];
-    positiveNumLength += 1;
+  sumAllBalance += balanceUser;
+
+  if (balanceUser > 2000) {
+    usersNumbers.push(users[key].phone);
+    sumBiggerBalance += balanceUser;
   }
 }
 
+sumAllBalance = sumAllBalance.toFixed(2);
+console.log(`Сума всіх балансів користувачів ${sumAllBalance}$`);
 console.log(
-  `Сума позитивних елементів масива дорівнює ${sumPositiveNum}, а кількість позитивних елементів ${positiveNumLength}`
+  `Масив телефонних номерів користувачів в яких баланс більше ніж 2000 доларів:`
 );
+console.log(usersNumbers);
 
-// Знайти мінімальний елемент масиву та його порядковий номер.
-
-let min = Math.min.apply(null, array);
-let indexOfMin = array.indexOf(min);
-
+sumBiggerBalance = sumBiggerBalance.toFixed(2);
 console.log(
-  `Мінімальний елемент масиву ${min} його порядковий номер ${indexOfMin}`
+  `Сума балансів користувачів в яких баланс більше ніж 2000 доларів: ${sumBiggerBalance}$`
 );
-
-// Знайти максимальний елемент масиву та його порядковий номер.
-
-let max = array[0];
-let indexOfMax;
-
-for (let i = 0; i < array.length; i++) {
-  if (max < array[i]) {
-    max = array[i];
-    indexOfMax = array.indexOf(max);
-  }
-}
-
-console.log(
-  `Максимальний елемент масиву ${max} його порядковий номер ${indexOfMax}`
-);
-
-// Визначити кількість негативних елементів.
-
-let quantityOfNegative = 0;
-
-for (i = 0; i < array.length; i += 1) {
-  if (array[i] < 0) {
-    quantityOfNegative += 1;
-  }
-}
-
-console.log(`Кількість негативних елементів: ${quantityOfNegative}`);
-
-// Знайти кількість непарних позитивних елементів.
-
-let quantityOfUnpaired = 0;
-let arrayUnpairedPositive = [];
-
-for (i = 0; i < array.length; i += 1) {
-  if (array[i] > 0 && array[i] % 2 !== 0) {
-    arrayUnpairedPositive.push(array[i]);
-    quantityOfUnpaired = arrayUnpairedPositive.length;
-  }
-}
-
-console.log(`Кількість непарних позитивних елементів: ${quantityOfUnpaired}`);
-
-// Визначити кількість парних позитивних елементів.
-
-let arrayPairedPositiv = array.filter((item) => item > 0 && item % 2 === 0);
-let quantityOfPaired = arrayPairedPositiv.length;
-
-console.log(`Кількість парних позитивних елементів: ${quantityOfPaired}`);
-
-// Знайти суму парних позитивних елементів.
-
-let sumOfPairedPositiv = 0;
-
-for (i = 0; i < arrayPairedPositiv.length; i += 1) {
-  sumOfPairedPositiv += arrayPairedPositiv[i];
-}
-console.log(`Сума парних позитивних елементів: ${sumOfPairedPositiv}`);
-
-// Знайти суму непарних позитивних елементів.
-
-let sumOfUnpairedPositiv = 0;
-
-for (i = 0; i < arrayUnpairedPositive.length; i += 1) {
-  sumOfUnpairedPositiv += arrayUnpairedPositive[i];
-}
-
-console.log(`Сума непарних позитивних елементів: ${sumOfUnpairedPositiv}`);
-
-// Знайти добуток позитивних елементів.
-
-let multiplyPositive = 1;
-
-array.forEach((number) => {
-  if (number > 0) {
-    multiplyPositive *= number;
-  }
-});
-
-console.log(`Добуток позитивних елементів: ${multiplyPositive}`);
-
-// Знайти найбільший серед елементів масиву, решту занулити.
-
-let bigestElement = Math.max(...array);
-
-for (let i = 0; i < array.length; i++) {
-  if (array[i] !== bigestElement) {
-    array.splice(i, 1, 0);
-  }
-}
-
-console.log(`Найбільший серед елементів масиву: ${bigestElement}`);
-
-console.log(array);
