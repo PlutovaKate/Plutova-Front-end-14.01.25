@@ -1,29 +1,19 @@
-// ДЗ 12. Функція removeElementFromArray
+// ДЗ 13. Функція generateKey
 
-// Реалізуйте функцію removeElement(array, item), щоб видалити елемент item з масиву array.
+// Реалізуйте функцію generateKey(length, characters),
+// що повертає рядок випадкових символів із набору characters довжиною length.
 
-console.log("варіант 1:");
+const generateKey = function (length, characters) {
+  let key = "";
 
-const removeElement = function (array, index) {
-  for (let i = 0; i < array.length; i += 1) {
-    if (i === index - 1) {
-      array.splice(i, 1);
-    }
+  for (let i = 0; i < length; i += 1) {
+    randomIndex = Math.floor(Math.random() * characters.length);
+    key += characters[randomIndex];
   }
-  return array;
+
+  return key;
 };
 
-const array = [1, 2, 3, 4, 5, 6, 7];
-removeElement(array, 5);
-console.log(array);
-// Результат: [1, 2, 3, 4, 6, 7]
-
-console.log("варіант 2:");
-
-const removeElement2 = function (array, index) {
-  return array.filter((element) => element !== index);
-};
-
-const newArray = removeElement2(array, 5);
-console.log(newArray);
-// // Результат: [1, 2, 3, 4, 6, 7]
+const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+const key = generateKey(16, characters);
+console.log(key); // eg599gb60q926j8i
