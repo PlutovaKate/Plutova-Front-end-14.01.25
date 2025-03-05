@@ -56,6 +56,23 @@ console.log(
   findAndSumOnlyNumbers(array)
 );
 
+console.log("2-й варіант");
+
+function averageOfNumbers(array) {
+  const numbers = array.filter((item) => typeof item === "number");
+  let sum = 0;
+  for (const num of numbers) {
+    sum += num;
+  }
+
+  return (sum / numbers.length).toFixed(2);
+}
+
+console.log(
+  "Cереднє арифметичне лише числових елементів даного масиву:",
+  averageOfNumbers(array)
+);
+
 // Написати функцію doMath(x, znak, y), яка отримує 3 аргументи: числа x та y, рядок znak.
 // У змінній znak може бути значення +, -, *, /, %, ^ (ступінь). Вивести результат математичної дії,
 //  вказаної у змінній znak. Обидва числа та знак виходять від користувача.
