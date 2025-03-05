@@ -33,6 +33,9 @@ const array = [
   9,
   14,
   "456",
+  NaN,
+  Infinity,
+  -Infinity,
 ];
 
 function findAndSumOnlyNumbers(array) {
@@ -41,7 +44,7 @@ function findAndSumOnlyNumbers(array) {
   let arithmeticMean = 0;
 
   for (const element of array) {
-    if (typeof element === "number" && element !== NaN) {
+    if (typeof element === "number" && Number.isFinite(element)) {
       total += element;
       numberOfNumbers += 1;
     }
@@ -61,7 +64,7 @@ console.log("2-й варіант");
 
 function averageOfNumbers(array) {
   const numbers = array.filter(
-    (item) => typeof item === "number" && item !== NaN
+    (item) => typeof item === "number" && Number.isFinite(item)
   );
   let sum = 0;
   for (const num of numbers) {
