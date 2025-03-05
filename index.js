@@ -41,12 +41,13 @@ function findAndSumOnlyNumbers(array) {
   let arithmeticMean = 0;
 
   for (const element of array) {
-    if (typeof element === "number") {
+    if (typeof element === "number" && element !== NaN) {
       total += element;
       numberOfNumbers += 1;
-      arithmeticMean = (total / numberOfNumbers).toFixed(2);
     }
   }
+
+  arithmeticMean = (total / numberOfNumbers).toFixed(2);
 
   return arithmeticMean;
 }
@@ -59,7 +60,9 @@ console.log(
 console.log("2-й варіант");
 
 function averageOfNumbers(array) {
-  const numbers = array.filter((item) => typeof item === "number");
+  const numbers = array.filter(
+    (item) => typeof item === "number" && item !== NaN
+  );
   let sum = 0;
   for (const num of numbers) {
     sum += num;
