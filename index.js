@@ -1,171 +1,43 @@
-// ДЗ 17. Магазин з товарами, реалізувати з функціями
+// ДЗ 19. Знайомство з DOM
 
-// Є масив об'єктів з товарами та їх цінами. Вивести в консоль список із даними по всіх товарах
-//  (кожен товар на окремому рядку в консолі). Від користувача отримати номер товару
-//  (реалізувати перевірку на правильність введення номера) та кількість (також реалізувати валідацію),
-//  вивести на сторінку підсумкову вартість покупки. Якщо вартість перевищує 10.000грн,
-// розрахувати знижку в 20% і повідомити про це користувача.
+// Є текстове поле на сторінці. При фокусі на цьому полі збоку з'являється <div> з інформацією.
+// При зникненні фокуса - так само пропадає
 
-const products = [
-  { id: 1, name: "телевізор", price: 25000, quantity: 25 },
-  { id: 2, name: "холодильник", price: 16000, quantity: 13 },
-  { id: 3, name: "мобільний телефон", price: 24000, quantity: 22 },
-  { id: 4, name: "праска", price: 5000, quantity: 46 },
-  { id: 5, name: "фен", price: 3000, quantity: 18 },
-];
+const input = document.createElement("input");
+const body = document.querySelector("body");
+body.appendChild(input);
 
-console.log("Список товарів:");
-products.map((product) =>
-  console.log(
-    `${product.id}. ${product.name} - ${product.price} грн, ${product.quantity} шт`
-  )
-);
+const div = document.createElement("div");
+div.style.backgroundColor = "lightBlue";
+div.style.width = "200px";
+div.style.position = "absolute";
+div.style.left = "12%";
+div.style.top = "19%";
+div.style.display = "none";
+body.appendChild(div);
 
-function isValidProductById() {
-  let value = Number(prompt("Введіть номер товару від 1 до 5"));
+const paragraph = document.createElement("p");
+paragraph.textContent = "Введіть слово для пошуку";
+div.appendChild(paragraph);
 
-  while (isNaN(value) || !products.some((product) => product.id === value)) {
-    console.log(
-      "Нажаль такого товару немає в наявності. Введіть будь-ласка номер товару від 1 до 5"
-    );
-    alert(
-      "Нажаль такого товару немає в наявності. Введіть будь-ласка номер товару від 1 до 5"
-    );
-    value = Number(prompt("Введіть номер товару від 1 до 5"));
-  }
+input.addEventListener("focus", focusHandler);
+input.addEventListener("blur", blurHandler);
 
-  return value;
+function focusHandler() {
+  div.style.display = "block";
+  input.removeEventListener("focus", focusHandler);
 }
 
-function isValidProductByQuantity(selectedItem) {
-  let value = prompt(
-    `Введіть кількість товару (доступно ${selectedItem.quantity} шт.):`
-  );
-
-  while (
-    isNaN(value) ||
-    Number(value) <= 0 ||
-    Number(value) > selectedItem.quantity
-  ) {
-    alert(
-      `Некоректна кількість! Введіть число від 1 до ${selectedItem.quantity}.`
-    );
-    value = prompt(
-      `Введіть кількість товару (доступно ${selectedItem.quantity} шт.):`
-    );
-  }
-
-  return Number(value);
+function blurHandler() {
+  div.style.display = "none";
+  input.addEventListener("focus", focusHandler);
 }
 
-const productId = isValidProductById();
-const selectedItem = products.find((product) => product.id === productId);
-const productQuantity = isValidProductByQuantity(selectedItem);
+// На сторінці є дві кнопки. При натисканні на першу кнопку просимо користувача ввести в prompt посилання,
+//  при натисканні на другу - переадресовується на інший сайт (за раніше введеним посиланням).
+//  Реалізувати перевірку на http/https. Якщо протокол не вказано - додаємо
 
-let totalPrice = productQuantity * selectedItem.price;
-let discount = 0;
-let message = "";
+// Вивести таблицю 10 × 10, заповнену числами від 1 до 100 (таблиця створюється динамічно)
 
-if (totalPrice > 10000) {
-  discount = totalPrice * 0.2;
-  totalPrice -= discount;
-  message = `Ваша покупка більше 10 000 грн, тому ваша знижка складає 20%. Сума до сплати з урахуванням знижки ${totalPrice}`;
-
-  console.log(message);
-
-  alert(message);
-}
-
-// * ускладнити практичне завдання запровадженням категорій товарів. Відповідно,
-//  користувач може вибрати категорію товару, номер товару та кількість.
-//  Потім результат його вибору з'явиться на сторінці
-
-const electronics = {
-  "Побутова техніка": [
-    { id: 1, name: "холодильник", price: 16000, quantity: 13 },
-    { id: 2, name: "праска", price: 5000, quantity: 46 },
-    { id: 3, name: "фен", price: 3000, quantity: 18 },
-    { id: 4, name: "пральна машина", price: 23000, quantity: 8 },
-  ],
-  Електроніка: [
-    { id: 5, name: "телевізор", price: 25000, quantity: 25 },
-    { id: 6, name: "мобільний телефон", price: 24000, quantity: 22 },
-    { id: 7, name: "смарт-годинник", price: 13000, quantity: 38 },
-    { id: 8, name: "планшет", price: 53000, quantity: 5 },
-  ],
-};
-
-function getCategoryFromUser() {
-  const namesOfCategories = Object.keys(electronics);
-  let category = prompt(
-    `Оберіть категорію. \n ${namesOfCategories.join(", ")}`
-  );
-
-  while (!category || !namesOfCategories.includes(category)) {
-    alert("Некорректна категорія. Спробуйте обрати ще раз");
-    category = prompt(`Оберіть категорію. \n ${namesOfCategories.join(", ")} `);
-  }
-
-  return category;
-}
-
-function getIdFromUser(category) {
-  let products = electronics[category];
-  console.log(products, "products");
-  const productList = products
-    .map((product) => `${product.id}. ${product.name};`)
-    .join("\n");
-  let productFromUser = Number(
-    prompt(`Оберіть номер товару: \n ${productList}`)
-  );
-
-  while (
-    isNaN(productFromUser) ||
-    !products.some((product) => productFromUser === product.id)
-  ) {
-    alert(`Невірний номер товару. Оберіть один із доступних`);
-    productFromUser = Number(prompt(`Оберіть номер товару: \n ${productList}`));
-  }
-
-  return productFromUser;
-}
-
-function getQuantityFromUser(selectedProduct) {
-  let quantityFromUser = prompt(
-    `Введіть кількість товару (доступно ${selectedProduct.quantity} шт.`
-  );
-
-  while (
-    isNaN(quantityFromUser) ||
-    Number(quantityFromUser) <= 0 ||
-    Number(quantityFromUser) > selectedProduct.quantity
-  ) {
-    alert(
-      `Некоректна кількість товару. Введіть від 1 до ${selectedProduct.quantity}`
-    );
-    quantityFromUser = prompt(
-      `Введіть кількість товару (доступно ${selectedProduct.quantity} шт.)`
-    );
-  }
-
-  return Number(quantityFromUser);
-}
-
-const selectedCategory = getCategoryFromUser();
-const selectedId = getIdFromUser(selectedCategory);
-const selectedProduct = electronics[selectedCategory].find(
-  (product) => product.id === selectedId
-);
-const selectedQuantity = getQuantityFromUser(selectedProduct);
-
-let totalPriceCateg = selectedQuantity * selectedProduct.price;
-let discountCateg = 0;
-let messageCateg = "";
-
-if (totalPriceCateg > 10000) {
-  discountCateg = totalPriceCateg * 0.2;
-  totalPriceCateg -= discountCateg;
-  messageCateg = `Ваша покупка більше 10 000 грн, тому ваша знижка складає 20%. Сума до сплати з урахуванням знижки ${totalPriceCateg} грн.`;
-
-  alert(messageCateg);
-}
+// У папці images є зображення 1.jpg, 2.jpg, 3.jpg, 4.jpg, 5.jpg, 6.jpg, 7.jpg, 8.jpg, 9.jpg.
+// Вивести зображення з цієї папки отримане випадковим чином (Math.random)
