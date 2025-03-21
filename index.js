@@ -1,66 +1,74 @@
-// ДЗ 21. Слайдер базовий
+// ДЗ 22. Функція generateList
 
-// Пишемо свій слайдер зображень
-// відображаємо зображення та кнопки Next, Prev з боків від зображення
-// При натисканні на Next - показуємо наступне зображення
-// При натисканні на Prev - попереднє
-// При досягненні останнього зображення – ховати кнопку Next. Аналогічно з першим зображенням та кнопкою Prev.
+// Написати функцію generateList(array), яка приймає масив із чисел та масивів чисел (наприклад [1,2,3])
+//  і генерує список з елементів
 
-const images = [
-  "./img/1.jpg",
-  "./img/2.jpg",
-  "./img/3.jpg",
-  "./img/4.jpg",
-  "./img/5.jpg",
-];
-console.log(images);
-let currentIndex = 0;
+//    <ul>
+//   <li>1</li>
+//   <li>2</li>
+//   <li>3</li>
+// </ul>
 
+const array = [1, 2, 3];
 const body = document.querySelector("body");
-const img = document.createElement("img");
-img.style.width = "300px";
-img.setAttribute("src", images[currentIndex]);
-body.appendChild(img);
 
-const containerForBtn = document.createElement("div");
-containerForBtn.style.display = "flex";
-containerForBtn.style.justifyContent = "space-between";
-containerForBtn.style.width = "300px";
-body.appendChild(containerForBtn);
+function generateList(array) {
+  const ul_1 = document.createElement("ul");
+  body.appendChild(ul_1);
 
-const prevBtn = document.createElement("button");
-prevBtn.style.padding = "10px";
-prevBtn.style.width = "80px";
-prevBtn.style.borderRadius = "10px";
-prevBtn.textContent = "Previous";
-containerForBtn.appendChild(prevBtn);
-
-const nextBtn = document.createElement("button");
-nextBtn.style.padding = "10px";
-nextBtn.style.width = "80px";
-nextBtn.style.borderRadius = "10px";
-nextBtn.textContent = "Next";
-containerForBtn.appendChild(nextBtn);
-
-function resetButton() {
-  prevBtn.style.opacity = currentIndex === 0 ? 0 : 1;
-  nextBtn.style.opacity = currentIndex === images.length - 1 ? 0 : 1;
+  array.map((item) => {
+    const li = document.createElement("li");
+    li.textContent = item;
+    ul_1.appendChild(li);
+    console.log(li);
+    return li;
+  });
 }
 
-nextBtn.addEventListener("click", nextPhoto);
+generateList(array);
 
-function nextPhoto() {
-  if (currentIndex < images.length - 1) {
-    img.src = images[++currentIndex];
-    resetButton();
-  }
+// Якщо ж у масиві зустрічається масив (наприклад, [1,2, [1.1,1.2,1.3], 3]) то робити вкладений список.
+//  Для перевірки масиву використовуйте Array.isArray()
+
+// <ul>
+//   <li>1</li>
+//   <li>2</li>
+//   <li>
+//     <ul>
+//       <li>1.1</li>
+//       <li>1.2</li>
+//       <li>1.3</li>
+//     </ul>
+//   </li>
+//   <li>3</li>
+// </ul>
+
+const array_1 = [1, 2, [3.1, 3.2, 3.3], 4];
+
+function generateList(array) {
+  const ul = document.createElement("ul");
+  body.appendChild(ul);
+
+  const ulInside = document.createElement("ul");
+
+  array.map((item) => {
+    const li = document.createElement("li");
+    ul.appendChild(li);
+
+    if (!Array.isArray(item)) {
+      li.textContent = item;
+    }
+
+    if (Array.isArray(item)) {
+      item.map((element) => {
+        const liInside = document.createElement("li");
+        liInside.textContent = element;
+        ulInside.appendChild(liInside);
+        li.appendChild(ulInside);
+      });
+    }
+    return li;
+  });
 }
 
-prevBtn.addEventListener("click", prevPhoto);
-
-function prevPhoto() {
-  if (currentIndex > 0) {
-    img.src = images[--currentIndex];
-    resetButton();
-  }
-}
+generateList(array_1);
