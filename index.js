@@ -1,41 +1,66 @@
-// ДЗ 20. Голосування за смайлики
+// ДЗ 21. Слайдер базовий
 
-// Створити програму для відображення результатів голосування. Як варіанти відповіді - смайлики. За замовчуванням 5 шт.
+// Пишемо свій слайдер зображень
+// відображаємо зображення та кнопки Next, Prev з боків від зображення
+// При натисканні на Next - показуємо наступне зображення
+// При натисканні на Prev - попереднє
+// При досягненні останнього зображення – ховати кнопку Next. Аналогічно з першим зображенням та кнопкою Prev.
 
-// Виведення даних - смайлики в один рядок, під ними - кількість тих, хто проголосував за кожен смайл
-
-// При натисканні на смайл - під ним змінюється значення лічильника
-
-// Реалізувати таким чином, щоб додавання нових варіантів відповіді не призводило до додавання нових функцій
+const images = [
+  "./img/1.jpg",
+  "./img/2.jpg",
+  "./img/3.jpg",
+  "./img/4.jpg",
+  "./img/5.jpg",
+];
+console.log(images);
+let currentIndex = 0;
 
 const body = document.querySelector("body");
-const emojis = ["❤", "😐", "😡", "💯", "☕"];
+const img = document.createElement("img");
+img.style.width = "300px";
+img.setAttribute("src", images[currentIndex]);
+body.appendChild(img);
+
 const containerForBtn = document.createElement("div");
+containerForBtn.style.display = "flex";
+containerForBtn.style.justifyContent = "space-between";
+containerForBtn.style.width = "300px";
 body.appendChild(containerForBtn);
-const containerForParagraph = document.createElement("div");
-containerForParagraph.style.display = "flex";
-body.appendChild(containerForParagraph);
 
-emojis.map((emoji) => {
-  let counter = 0;
+const prevBtn = document.createElement("button");
+prevBtn.style.padding = "10px";
+prevBtn.style.width = "80px";
+prevBtn.style.borderRadius = "10px";
+prevBtn.textContent = "Previous";
+containerForBtn.appendChild(prevBtn);
 
-  const button = document.createElement("button");
-  button.style.width = "50px";
-  button.style.backgroundColor = "lightBlue";
-  button.style.marginRight = "20px";
-  button.textContent = emoji;
-  containerForBtn.appendChild(button);
+const nextBtn = document.createElement("button");
+nextBtn.style.padding = "10px";
+nextBtn.style.width = "80px";
+nextBtn.style.borderRadius = "10px";
+nextBtn.textContent = "Next";
+containerForBtn.appendChild(nextBtn);
 
-  const paragraph = document.createElement("p");
-  paragraph.style.width = "50px";
-  paragraph.style.marginRight = "20px";
-  paragraph.style.textAlign = "center";
-  paragraph.textContent = counter;
-  paragraph.style.backgroundColor = "lightBlue";
-  containerForParagraph.appendChild(paragraph);
+function resetButton() {
+  prevBtn.style.opacity = currentIndex === 0 ? 0 : 1;
+  nextBtn.style.opacity = currentIndex === images.length - 1 ? 0 : 1;
+}
 
-  button.addEventListener("click", () => {
-    counter++;
-    paragraph.textContent = counter;
-  });
-});
+nextBtn.addEventListener("click", nextPhoto);
+
+function nextPhoto() {
+  if (currentIndex < images.length - 1) {
+    img.src = images[++currentIndex];
+    resetButton();
+  }
+}
+
+prevBtn.addEventListener("click", prevPhoto);
+
+function prevPhoto() {
+  if (currentIndex > 0) {
+    img.src = images[--currentIndex];
+    resetButton();
+  }
+}
