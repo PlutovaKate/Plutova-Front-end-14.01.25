@@ -9,10 +9,11 @@ body.appendChild(input);
 
 const div = document.createElement("div");
 div.style.backgroundColor = "lightBlue";
-div.style.width = "200px";
+div.style.padding = "5px";
+div.style.borderRadius = "20px";
 div.style.position = "absolute";
 div.style.left = "12%";
-div.style.top = "19%";
+div.style.top = "17%";
 div.style.display = "none";
 body.appendChild(div);
 
@@ -36,6 +37,44 @@ function blurHandler() {
 // На сторінці є дві кнопки. При натисканні на першу кнопку просимо користувача ввести в prompt посилання,
 //  при натисканні на другу - переадресовується на інший сайт (за раніше введеним посиланням).
 //  Реалізувати перевірку на http/https. Якщо протокол не вказано - додаємо
+
+const divForButton = document.createElement("div");
+divForButton.style.marginTop = "100px";
+body.appendChild(divForButton);
+
+const buttons = ["Кнопка 1", "Кнопка 2"].map((text) => {
+  const button = document.createElement("a");
+  button.textContent = text;
+  button.style.backgroundColor = "#0085ff";
+  button.style.borderRadius = "20px";
+  button.style.padding = "20px";
+  button.style.marginRight = "20px";
+  button.style.color = "white";
+  divForButton.appendChild(button);
+  return button;
+});
+
+const button_1 = document.querySelectorAll("a")[0];
+const button_2 = document.querySelectorAll("a")[1];
+
+button_1.addEventListener("click", enterLink);
+let link = "";
+
+function enterLink() {
+  link = prompt("Введіть посилання");
+
+  if (!(link.startsWith("http://") || link.startsWith("https://"))) {
+    link = "https://" + link;
+  }
+  console.log(link);
+  return link;
+}
+
+button_2.addEventListener("click", followLink);
+
+function followLink() {
+  button_2.setAttribute("href", link);
+}
 
 // Вивести таблицю 10 × 10, заповнену числами від 1 до 100 (таблиця створюється динамічно)
 
