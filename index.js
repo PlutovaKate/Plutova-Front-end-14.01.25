@@ -1,130 +1,41 @@
-// ДЗ 19. Знайомство з DOM
+// ДЗ 20. Голосування за смайлики
 
-// Є текстове поле на сторінці. При фокусі на цьому полі збоку з'являється <div> з інформацією.
-// При зникненні фокуса - так само пропадає
+// Створити програму для відображення результатів голосування. Як варіанти відповіді - смайлики. За замовчуванням 5 шт.
 
-const input = document.createElement("input");
+// Виведення даних - смайлики в один рядок, під ними - кількість тих, хто проголосував за кожен смайл
+
+// При натисканні на смайл - під ним змінюється значення лічильника
+
+// Реалізувати таким чином, щоб додавання нових варіантів відповіді не призводило до додавання нових функцій
+
 const body = document.querySelector("body");
-body.appendChild(input);
+const emojis = ["❤", "😐", "😡", "💯", "☕"];
+const containerForBtn = document.createElement("div");
+body.appendChild(containerForBtn);
+const containerForParagraph = document.createElement("div");
+containerForParagraph.style.display = "flex";
+body.appendChild(containerForParagraph);
 
-const div = document.createElement("div");
-div.style.backgroundColor = "lightBlue";
-div.style.padding = "5px";
-div.style.borderRadius = "20px";
-div.style.position = "absolute";
-div.style.left = "200px";
-div.style.top = "60px";
-div.style.display = "none";
-body.appendChild(div);
+emojis.map((emoji) => {
+  let counter = 0;
 
-const paragraph = document.createElement("p");
-paragraph.textContent = "Введіть слово для пошуку";
-div.appendChild(paragraph);
-
-input.addEventListener("focus", focusHandler);
-input.addEventListener("blur", blurHandler);
-
-function focusHandler() {
-  div.style.display = "block";
-  input.removeEventListener("focus", focusHandler);
-}
-
-function blurHandler() {
-  div.style.display = "none";
-  input.addEventListener("focus", focusHandler);
-}
-
-// На сторінці є дві кнопки. При натисканні на першу кнопку просимо користувача ввести в prompt посилання,
-//  при натисканні на другу - переадресовується на інший сайт (за раніше введеним посиланням).
-//  Реалізувати перевірку на http/https. Якщо протокол не вказано - додаємо
-
-const divForButton = document.createElement("div");
-divForButton.style.marginTop = "100px";
-body.appendChild(divForButton);
-
-const buttons = ["Кнопка 1", "Кнопка 2"].map((text) => {
-  const button = document.createElement("a");
-  button.textContent = text;
-  button.style.backgroundColor = "#0085ff";
-  button.style.borderRadius = "20px";
-  button.style.padding = "20px";
+  const button = document.createElement("button");
+  button.style.width = "50px";
+  button.style.backgroundColor = "lightBlue";
   button.style.marginRight = "20px";
-  button.style.color = "white";
-  divForButton.appendChild(button);
-  return button;
+  button.textContent = emoji;
+  containerForBtn.appendChild(button);
+
+  const paragraph = document.createElement("p");
+  paragraph.style.width = "50px";
+  paragraph.style.marginRight = "20px";
+  paragraph.style.textAlign = "center";
+  paragraph.textContent = counter;
+  paragraph.style.backgroundColor = "lightBlue";
+  containerForParagraph.appendChild(paragraph);
+
+  button.addEventListener("click", () => {
+    counter++;
+    paragraph.textContent = counter;
+  });
 });
-
-const button_1 = document.querySelectorAll("a")[0];
-const button_2 = document.querySelectorAll("a")[1];
-
-button_1.addEventListener("click", enterLink);
-let link = "";
-
-function enterLink() {
-  link = prompt("Введіть посилання");
-
-  if (!(link.startsWith("http://") || link.startsWith("https://"))) {
-    link = "https://" + link;
-  }
-  console.log(link);
-  return link;
-}
-
-button_2.addEventListener("click", followLink);
-
-function followLink() {
-  button_2.setAttribute("href", link);
-}
-
-// Вивести таблицю 10 × 10, заповнену числами від 1 до 100 (таблиця створюється динамічно)
-
-const table = document.createElement("table");
-table.style.marginTop = "100px";
-const tBody = document.createElement("tbody");
-table.appendChild(tBody);
-let counter = 1;
-
-console.log(table);
-
-for (let i = 1; i < 11; i += 1) {
-  const tr = document.createElement("tr");
-
-  tBody.appendChild(tr);
-
-  for (let j = 1; j < 11; j++) {
-    const td = document.createElement("td");
-    td.style.width = "40px";
-    td.style.height = "40px";
-    td.style.textAlign = "center";
-    td.style.backgroundColor = "tomato";
-    td.innerText = counter++;
-    tr.appendChild(td);
-  }
-}
-
-body.appendChild(table);
-
-// У папці images є зображення 1.jpg, 2.jpg, 3.jpg, 4.jpg, 5.jpg, 6.jpg, 7.jpg, 8.jpg, 9.jpg.
-// Вивести зображення з цієї папки отримане випадковим чином (Math.random)
-
-const img = document.createElement("img");
-img.style.marginTop = "100px";
-img.style.width = "400px";
-body.appendChild(img);
-
-function showRandomImg() {
-  const random = Math.floor(Math.random() * 10);
-  let randomImg = "";
-
-  if (random === 0) {
-    randomImg = "/img/10.jpg";
-  } else {
-    randomImg = "./img/" + random + ".jpg";
-  }
-
-  img.setAttribute("src", randomImg);
-  console.log(randomImg);
-  return random;
-}
-
-showRandomImg();
