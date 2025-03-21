@@ -12,8 +12,8 @@ div.style.backgroundColor = "lightBlue";
 div.style.padding = "5px";
 div.style.borderRadius = "20px";
 div.style.position = "absolute";
-div.style.left = "12%";
-div.style.top = "17%";
+div.style.left = "200px";
+div.style.top = "60px";
 div.style.display = "none";
 body.appendChild(div);
 
@@ -78,5 +78,53 @@ function followLink() {
 
 // Вивести таблицю 10 × 10, заповнену числами від 1 до 100 (таблиця створюється динамічно)
 
+const table = document.createElement("table");
+table.style.marginTop = "100px";
+const tBody = document.createElement("tbody");
+table.appendChild(tBody);
+let counter = 1;
+
+console.log(table);
+
+for (let i = 1; i < 11; i += 1) {
+  const tr = document.createElement("tr");
+
+  tBody.appendChild(tr);
+
+  for (let j = 1; j < 11; j++) {
+    const td = document.createElement("td");
+    td.style.width = "40px";
+    td.style.height = "40px";
+    td.style.textAlign = "center";
+    td.style.backgroundColor = "tomato";
+    td.innerText = counter++;
+    tr.appendChild(td);
+  }
+}
+
+body.appendChild(table);
+
 // У папці images є зображення 1.jpg, 2.jpg, 3.jpg, 4.jpg, 5.jpg, 6.jpg, 7.jpg, 8.jpg, 9.jpg.
 // Вивести зображення з цієї папки отримане випадковим чином (Math.random)
+
+const img = document.createElement("img");
+img.style.marginTop = "100px";
+img.style.width = "400px";
+body.appendChild(img);
+
+function showRandomImg() {
+  const random = Math.floor(Math.random() * 10);
+  let randomImg = "";
+
+  if (random === 0) {
+    randomImg = "/img/10.jpg";
+  } else {
+    randomImg = "./img/" + random + ".jpg";
+  }
+
+  img.setAttribute("src", randomImg);
+  console.log(randomImg);
+  return random;
+}
+
+showRandomImg();
