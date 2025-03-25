@@ -4,3 +4,15 @@ body {
 h1 {
   color: blue;
 }
+
+.hidden {
+  display: none;
+}
+
+.visibility {
+  visibility: hidden;
+}
+
+.buyClass {
+  color: blue;
+}

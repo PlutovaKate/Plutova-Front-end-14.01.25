@@ -1,74 +1,158 @@
-// ДЗ 22. Функція generateList
+// ДЗ 23. Подоба інтернет-магазину
 
-// Написати функцію generateList(array), яка приймає масив із чисел та масивів чисел (наприклад [1,2,3])
-//  і генерує список з елементів
+// Реалізувати подобу інтернет-магазину
 
-//    <ul>
-//   <li>1</li>
-//   <li>2</li>
-//   <li>3</li>
-// </ul>
+// Дано 3 блоки
 
-const array = [1, 2, 3];
+// У лівій частині сторінки – перелік категорій.
+
+// При натисканні на категорію виводиться у середній блок список товарів цієї категорії.
+
+// Клік на товар – інформацію про товар у правому блоці.
+
+// В інформації товару - кнопка "купити"
+
+// При натисканні на “купити” з'являється повідомлення, що товар куплено та повернення у вихідний стан програми
+// (коли відображається лише список категорій)
+
+const AllCategories = ["Appliance", "Mobile", "Laptop"];
+const appliance = ["Fridge", "Washing machine", "Hair dryer"];
+const mobile = ["Samsung", "Apple", "Nokia"];
+const laptop = ["Lenovo", "Acer", "LG"];
+
 const body = document.querySelector("body");
 
-function generateList(array) {
-  const ul_1 = document.createElement("ul");
-  body.appendChild(ul_1);
+const container = document.createElement("div");
+container.style.display = "flex";
+body.appendChild(container);
 
-  array.map((item) => {
-    const li = document.createElement("li");
-    li.textContent = item;
-    ul_1.appendChild(li);
-    console.log(li);
-    return li;
+const containerAllCategories = document.createElement("div");
+containerAllCategories.style.display = "flex";
+containerAllCategories.style.flexDirection = "column";
+containerAllCategories.style.width = "130px";
+containerAllCategories.style.gap = "10px";
+containerAllCategories.style.marginRight = "10px";
+container.appendChild(containerAllCategories);
+
+const buttonsAllCategories = AllCategories.map((item) => {
+  const button = document.createElement("button");
+  button.textContent = item;
+  button.style.height = "60px";
+  containerAllCategories.appendChild(button);
+
+  return button;
+});
+
+const applianceContainer = document.createElement("div");
+applianceContainer.style.width = "130px";
+applianceContainer.style.marginRight = "10px";
+applianceContainer.classList.add("hidden");
+container.appendChild(applianceContainer);
+
+const buttonsFromAppliance = appliance.map((item) => {
+  const button = document.createElement("button");
+  button.textContent = item;
+  button.style.width = "130px";
+  button.style.height = "60px";
+  button.style.marginBottom = "10px";
+  applianceContainer.appendChild(button);
+
+  return button;
+});
+
+const buttonAppliance = buttonsAllCategories[0];
+buttonAppliance.addEventListener("click", toggleAppliance);
+
+function toggleAppliance() {
+  applianceContainer.classList.toggle("hidden");
+  mobileContainer.classList.add("hidden");
+  laptopContainer.classList.add("hidden");
+}
+
+const mobileContainer = document.createElement("div");
+mobileContainer.style.width = "130px";
+mobileContainer.style.marginRight = "10px";
+mobileContainer.classList.add("hidden");
+container.appendChild(mobileContainer);
+
+const buttonsFromMobile = mobile.map((item) => {
+  const button = document.createElement("button");
+  button.textContent = item;
+  button.style.width = "130px";
+  button.style.height = "60px";
+  button.style.marginBottom = "10px";
+  mobileContainer.appendChild(button);
+
+  return button;
+});
+
+const ButtonMobile = buttonsAllCategories[1];
+ButtonMobile.addEventListener("click", toggleMobile);
+
+function toggleMobile() {
+  mobileContainer.classList.toggle("hidden");
+  applianceContainer.classList.add("hidden");
+  laptopContainer.classList.add("hidden");
+}
+
+const laptopContainer = document.createElement("div");
+laptopContainer.style.width = "130px";
+laptopContainer.style.marginRight = "10px";
+laptopContainer.classList.add("hidden");
+container.appendChild(laptopContainer);
+
+const buttonsFromLaptop = laptop.map((item) => {
+  const button = document.createElement("button");
+  button.textContent = item;
+  button.style.width = "130px";
+  button.style.height = "60px";
+  button.style.marginBottom = "10px";
+  laptopContainer.appendChild(button);
+
+  return button;
+});
+
+const buttonLaptop = buttonsAllCategories[2];
+buttonLaptop.addEventListener("click", toggleLaptop);
+
+function toggleLaptop() {
+  laptopContainer.classList.toggle("hidden");
+  applianceContainer.classList.add("hidden");
+  mobileContainer.classList.add("hidden");
+}
+
+const infoContainer = document.createElement("div");
+infoContainer.style.width = "130px";
+container.appendChild(infoContainer);
+
+function showProductInfo(product) {
+  infoContainer.innerHTML = "";
+  const infoText = document.createElement("p");
+  infoText.style.textAlign = "center";
+  infoText.textContent = `Information about ${product} `;
+  infoContainer.appendChild(infoText);
+
+  const btnBuy = document.createElement("button");
+  btnBuy.textContent = "Buy";
+  infoText.appendChild(btnBuy);
+
+  btnBuy.addEventListener("click", () => {
+    alert("Item purchased");
+    infoContainer.innerHTML = "";
+    applianceContainer.classList.add("hidden");
+    mobileContainer.classList.add("hidden");
+    laptopContainer.classList.add("hidden");
   });
 }
 
-generateList(array);
+buttonsFromAppliance.forEach((button, index) => {
+  button.addEventListener("click", () => showProductInfo(appliance[index]));
+});
 
-// Якщо ж у масиві зустрічається масив (наприклад, [1,2, [1.1,1.2,1.3], 3]) то робити вкладений список.
-//  Для перевірки масиву використовуйте Array.isArray()
+buttonsFromMobile.forEach((button, index) => {
+  button.addEventListener("click", () => showProductInfo(mobile[index]));
+});
 
-// <ul>
-//   <li>1</li>
-//   <li>2</li>
-//   <li>
-//     <ul>
-//       <li>1.1</li>
-//       <li>1.2</li>
-//       <li>1.3</li>
-//     </ul>
-//   </li>
-//   <li>3</li>
-// </ul>
-
-const array_1 = [1, 2, [3.1, 3.2, 3.3], 4];
-
-function generateList(array) {
-  const ul = document.createElement("ul");
-  body.appendChild(ul);
-
-  const ulInside = document.createElement("ul");
-
-  array.map((item) => {
-    const li = document.createElement("li");
-    ul.appendChild(li);
-
-    if (!Array.isArray(item)) {
-      li.textContent = item;
-    }
-
-    if (Array.isArray(item)) {
-      item.map((element) => {
-        const liInside = document.createElement("li");
-        liInside.textContent = element;
-        ulInside.appendChild(liInside);
-        li.appendChild(ulInside);
-      });
-    }
-    return li;
-  });
-}
-
-generateList(array_1);
+buttonsFromLaptop.forEach((button, index) => {
+  button.addEventListener("click", () => showProductInfo(laptop[index]));
+});
