@@ -10,6 +10,11 @@ body {
 }
 
 .container {
+  display: flex;
+  gap: 100px;
+}
+
+.container-form {
   background: #dabb52;
   width: 500px;
   border-radius: 30px;
@@ -27,7 +32,8 @@ form {
   flex-direction: column;
 }
 
-label {
+label,
+p {
   margin: 10px 0 5px;
   font-weight: bold;
 }
@@ -64,7 +70,7 @@ textarea {
   resize: vertical;
 }
 
-input[type="submit"] {
+button[type="submit"] {
   background-color: #ff7043;
   color: white;
   border: none;
@@ -75,9 +81,10 @@ input[type="submit"] {
   font-size: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background 0.3s ease;
+  margin-top: 20px;
 }
 
-input[type="submit"]:hover {
+button[type="submit"]:hover {
   background-color: #e64a19;
 }
 
@@ -110,4 +117,52 @@ input[type="submit"]:hover {
 .search-container button img {
   width: 20px;
   height: 20px;
+}
+
+.container-table {
+  width: 500px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  background: #fff;
+  border-radius: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+caption {
+  background: #dabb52;
+  padding: 20px;
+}
+
+thead {
+  background: #ff7043;
+  color: white;
+}
+
+thead th {
+  padding: 12px;
+  font-size: 18px;
+}
+
+tbody tr:nth-child(even) {
+  background: #fdf8ee;
+}
+
+tbody tr:nth-child(odd) {
+  background: #fff;
+}
+
+tbody th,
+tbody td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+  background: #ffccbc;
 }
