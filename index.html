@@ -7,131 +7,71 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="container">
-      <div class="container-form">
-        <h1>Registration form</h1>
+    <form action="/signUp" method="get">
+      <h1>Product registration form</h1>
 
-        <form action="/signup" method="get">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" />
+      <label for="fullName">Full name:</label>
+      <input type="text" id="fullName" name="fullName" required />
 
-          <label for="surname">Surname</label>
-          <input type="text" id="surname" name="surname" />
+      <label for="city">Choose your city:</label>
+      <select id="city" name="city" required>
+        <option value="Dnipro">Dnipro</option>
+        <option value="Kyiv">Kyiv</option>
+        <option value="Lviv">Lviv</option>
+        <option value="Odessa">Odessa</option>
+      </select>
 
-          <label for="birthday">Date of birth</label>
-          <input type="text" id="birthday" name="Date of birth" />
+      <label for="post">Choose your post:</label>
+      <select id="post" name="post" required>
+        <option value="Post_1">Post_1</option>
+        <option value="Post_2">Post_2</option>
+        <option value="Post_3">Post_3</option>
+        <option value="Post_4">Post_4</option>
+      </select>
 
-          <p>Select your gender:</p>
-          <div>
-            <input type="radio" name="gender" value="male" id="male" />
-            <label for="male">Male</label>
-          </div>
-          <div>
-            <input type="radio" name="gender" value="Female" id="female" />
-            <label for="female">Female</label>
-          </div>
-
-          <label for="city">Choose your city:</label>
-          <select id="city" name="city" size="4" multiple>
-            <option value="Dnipro">Dnipro</option>
-            <option value="Kyiv">Kyiv</option>
-            <option value="Lviv">Lviv</option>
-            <option value="Odessa">Odessa</option>
-          </select>
-
-          <label for="address">Enter your address:</label>
-          <textarea id="address" name="address" rows="5" cols="30"> </textarea>
-
-          <p>Select your languages:</p>
-          <label for="Ukrainian">
-            <input
-              type="checkbox"
-              name="language"
-              value="Ukrainian"
-              id="Ukrainian"
-            />Ukrainian</label
-          >
-          <label for="English"
-            ><input
-              type="checkbox"
-              name="language"
-              value="English"
-              id="English"
-            />
-            English</label
-          >
-          <label for="German"
-            ><input
-              type="checkbox"
-              name="language"
-              value="German"
-              id="German"
-            />German</label
-          >
-          <label for="Poland"
-            ><input
-              type="checkbox"
-              name="language"
-              value="Poland"
-              id="Poland"
-            />Poland</label
-          >
-
-          <label for="email">Enter your email:</label>
-          <input type="email" id="email" name="email" size="30" />
-
-          <button type="submit">Submit</button>
-        </form>
+      <div>
+        <p>Select payment method:</p>
+        <div>
+          <input
+            type="radio"
+            name="payment"
+            value="pre-payment"
+            id="pre-payment"
+            required
+          />
+          <label for="pre-payment">Pre-payment</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            name="payment"
+            value="post-payment"
+            id="post-payment"
+            required
+          />
+          <label for="post-payment">Post-payment</label>
+        </div>
       </div>
 
-      <div class="container-table">
-        <table>
-          <caption>
-            Registration form
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Data</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Name</th>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">Surname</th>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">Date of birth</th>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">Gender</th>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">City</th>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">Address</th>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">Languages</th>
-              <td></td>
-            </tr>
-            <tr>
-              <th scope="row">Email</th>
-              <td></td>
-            </tr>
-          </tbody>
-        </table>
+      <div>
+        <label for="quantity">Quantity:</label>
+        <input
+          type="number"
+          step="1"
+          min="1"
+          max="10"
+          id="quantity"
+          name="quantity"
+          value="1"
+        />
       </div>
-    </div>
+
+      <label for="comment">Enter your comment:</label>
+      <textarea id="comment" name="comment" rows="4" cols="30"> </textarea>
+
+      <button type="submit">Submit</button>
+    </form>
+
     <script src="./index.js"></script>
   </body>
 </html>
