@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box;
 }
+li {
+  list-style: none;
+}
 
 body {
   font-family: Arial, sans-serif;
@@ -89,7 +92,15 @@ textarea {
   resize: vertical;
 }
 
+.price,
+.date {
+  display: flex;
+  gap: 10px;
+}
+
 .byu,
+.order-infoBtn,
+.deleteBtn,
 button[type="submit"] {
   background-color: #ff7043;
   color: white;
@@ -105,11 +116,14 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover,
+.order-infoBtn:hover,
+.deleteBtn:hover,
 .byu:hover {
   background-color: #e64a19;
 }
 
-.item {
+.item,
+.btn_orders {
   background-color: #ff7043;
   color: white;
   border: none;
@@ -122,7 +136,31 @@ button[type="submit"]:hover,
   transition: background 0.3s ease;
   margin-top: 20px;
 }
+.btn_orders {
+  width: 130px;
+  height: 60px;
+  background-color: #dabb52;
+  border: 5px solid #ff7043;
+  color: #333;
+}
 
-.item:hover {
+.item:hover,
+.btn_orders:hover {
   background-color: #e64a19;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-item {
+  width: 300px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 5px solid #ff7043;
+}
+
+.title-list {
+  display: none;
 }

@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <button class="btn_orders" type="button">My Orders</button>
+    <div>
+      <h2 class="title-list">List of Orders</h2>
+      <ul class="orders-list"></ul>
+    </div>
     <form action="/signUp" method="get">
       <h1>Product registration form</h1>
 
@@ -64,6 +69,15 @@
           name="quantity"
           value="1"
         />
+      </div>
+      <div class="price">
+        <p>Total price:</p>
+        <p id="total-price">1000</p>
+      </div>
+
+      <div class="date">
+        <p>Date:</p>
+        <p class="date-today"></p>
       </div>
 
       <label for="comment">Enter your comment:</label>

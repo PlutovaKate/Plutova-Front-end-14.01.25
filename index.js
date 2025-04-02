@@ -1,30 +1,24 @@
-// ДЗ 25. Модифікувати інтернет-магазин (форма)
+// ДЗ 26. Модифікувати інтернет-магазин (localStorage)
 
-// Додати до попереднього завдання з інтернет-магазином:
+// Модифікувати інтернет-магазин таким чином, щоб була можливість переглянути всі збережені
+//  замовлення навіть після оновлення сторінки (використовувати localStorage)
 
-// В інформації товару - кнопка "купити"
-
-// При натисканні на "купити" нижче з'являється форма оформлення замовлення з наступними полями:
-// ПІБ покупця
-// Місто (вибір зі списку)
-// Склад Нової пошти для надсилання
-// Післяплати або оплати банківської картки
-// Кількість продукції, що купується
-// коментар до замовлення
-// Реалізувати перевірку всіх даних користувача під час підтвердження замовлення - обов'язкові поля заповнені.
-//  Інакше виводити помилку на сторінку
-// Виводити інформацію про замовлення на сторінку (інформація про товар та про доставку)
+// На сторінці спочатку, крім списку категорій, відображається також кнопка “мої замовлення”
+// При натисканні на "мої замовлення" - пропадають категорії та відображається список усіх замовлень користувача
+//  (дата та ціна) - при натисканні на замовлення - "розгортаються" деталі замовлення
+// Реалізувати можливість видалення замовлення зі списку
 
 const AllCategories = ["Appliance", "Mobile", "Laptop"];
 const appliance = ["Fridge", "Washing machine", "Hair dryer"];
 const mobile = ["Samsung", "Apple", "Nokia"];
 const laptop = ["Lenovo", "Acer", "LG"];
+const price = 1000;
 
 const body = document.querySelector("body");
 
 const container = document.createElement("div");
 container.style.display = "flex";
-body.prepend(container);
+body.append(container);
 
 const containerAllCategories = document.createElement("div");
 containerAllCategories.style.display = "flex";
@@ -38,7 +32,7 @@ const buttonsAllCategories = AllCategories.map((item) => {
   const button = document.createElement("button");
   button.classList.add("item");
   button.textContent = item;
-  button.style.height = "60px";
+  button.style.height = "75px";
   containerAllCategories.appendChild(button);
 
   return button;
@@ -53,9 +47,9 @@ container.appendChild(applianceContainer);
 const buttonsFromAppliance = appliance.map((item) => {
   const button = document.createElement("button");
   button.classList.add("item");
-  button.textContent = item;
+  button.textContent = item + " " + price + "$";
   button.style.width = "130px";
-  button.style.height = "60px";
+  button.style.height = "75px";
   button.style.marginBottom = "10px";
   applianceContainer.appendChild(button);
 
@@ -80,9 +74,9 @@ container.appendChild(mobileContainer);
 const buttonsFromMobile = mobile.map((item) => {
   const button = document.createElement("button");
   button.classList.add("item");
-  button.textContent = item;
+  button.textContent = item + " " + price + "$";
   button.style.width = "130px";
-  button.style.height = "60px";
+  button.style.height = "75px";
   button.style.marginBottom = "10px";
   mobileContainer.appendChild(button);
 
@@ -107,9 +101,9 @@ container.appendChild(laptopContainer);
 const buttonsFromLaptop = laptop.map((item) => {
   const button = document.createElement("button");
   button.classList.add("item");
-  button.textContent = item;
+  button.textContent = item + " " + price + "$";
   button.style.width = "130px";
-  button.style.height = "60px";
+  button.style.height = "75px";
   button.style.marginBottom = "10px";
   laptopContainer.appendChild(button);
 
@@ -147,6 +141,7 @@ function showProductInfo(product) {
   btnBuy.addEventListener("click", () => {
     alert("Item purchased. \n Please fill product registration form");
     infoContainer.innerHTML = "";
+    containerAllCategories.style.display = "none";
     applianceContainer.classList.add("hidden");
     mobileContainer.classList.add("hidden");
     laptopContainer.classList.add("hidden");
@@ -165,6 +160,29 @@ buttonsFromLaptop.forEach((button, index) => {
   button.addEventListener("click", () => showProductInfo(laptop[index]));
 });
 
+const totalPrice = document.querySelector("#total-price");
+const quantityInput = document.querySelector("#quantity");
+quantityInput.addEventListener("input", changePrice);
+let totalPriceValue = 0;
+
+function changePrice() {
+  totalPriceValue = quantityInput.value * price;
+  totalPrice.textContent = totalPriceValue;
+  return totalPriceValue;
+}
+
+const today = new Date().toLocaleString("en", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric",
+});
+
+const dateToday = document.querySelector(".date-today");
+dateToday.textContent = today;
+
 const form = document.querySelector("form");
 btnBuy.addEventListener("click", showProductRegistrationForm);
 
@@ -172,6 +190,7 @@ function showProductRegistrationForm() {
   form.style.display = "flex";
 }
 
+const orderKey = `Order_${today}`;
 form.addEventListener("submit", handleSubmit);
 
 function handleSubmit(event) {
@@ -185,6 +204,8 @@ function handleSubmit(event) {
     post: formData.get("post"),
     payment: formData.get("payment"),
     quantity: formData.get("quantity"),
+    price: totalPriceValue,
+    date: today,
     comment: formData.get("comment"),
   };
 
@@ -194,7 +215,62 @@ function handleSubmit(event) {
    Post: ${values.post} \n
    Payment: ${values.payment} \n
    Quantity: ${values.quantity} \n
+   Price: ${values.price} $\n
+   Date: ${values.date} \n
    Comment: ${values.comment} \n`;
 
   alert(message);
+
+  localStorage.setItem(orderKey, JSON.stringify(values));
+
+  containerAllCategories.style.display = "flex";
+  form.style.display = "none";
+}
+
+const ordersBtn = document.querySelector(".btn_orders");
+const ordersList = document.querySelector(".orders-list");
+const titleList = document.querySelector(".title-list");
+
+ordersBtn.addEventListener("click", makeListOfOrders);
+
+function makeListOfOrders() {
+  titleList.style.display = "block";
+  containerAllCategories.style.display = "none";
+  form.style.display = "none";
+  ordersList.innerHTML = "";
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (!key.startsWith("Order_")) continue;
+
+    const orderData = JSON.parse(localStorage.getItem(key));
+    const orderItem = document.createElement("li");
+    orderItem.classList.add("order-item");
+
+    let orderContent = `${orderData.date}: Total price: ${orderData.price} $`;
+    orderItem.textContent = orderContent;
+
+    const orderInfoBtn = document.createElement("button");
+    orderInfoBtn.classList.add("order-infoBtn");
+    orderInfoBtn.textContent = "More info...";
+    orderItem.appendChild(orderInfoBtn);
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("deleteBtn");
+    deleteBtn.textContent = "Delete";
+    orderItem.appendChild(deleteBtn);
+
+    ordersList.appendChild(orderItem);
+
+    orderInfoBtn.addEventListener("click", () => {
+      alert(
+        `Order Details:\nFull Name: ${orderData.fullName}\nCity: ${orderData.city}\nPost: ${orderData.post}\nPayment: ${orderData.payment}\nQuantity: ${orderData.quantity}\nPrice: ${orderData.price} $\nDate: ${orderData.date}\nComment: ${orderData.comment}`
+      );
+    });
+
+    deleteBtn.addEventListener("click", () => {
+      localStorage.removeItem(key);
+      makeListOfOrders();
+    });
+  }
 }
