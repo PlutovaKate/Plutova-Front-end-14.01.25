@@ -1,63 +1,81 @@
-// ДЗ 27. CRUD додаток для users
+// ДЗ 28. Сутності людини та автомобіля
 
-// Створити CRUD-додаток (Create, Read, Update, Delete):
+// Створити сутність людини
 
-// Виводиться список користувачів із кнопками “Edit”, “Remove”, “View” біля кожного користувача
-// (use data-id attributes або event delegation)
-// список користувачів отримувати з js-файлу (масив об'єктів / використовувати функції-конструктори – за бажанням)
+// ім'я
+// вік
+// Метод виведення даних
 
-// При натисканні на кнопку “View” відкриваються дані користувача у блоці під списком
-// При натисканні на кнопку “Edit” з'являється можливість редагувати дані в блоці під списком.
-//  Дані зберігаються при натисканні на кнопку “Save” та оновлюють дані у списку
-// При натисканні на кнопку “Remove” користувач видаляється зі списку
-// Обов'язково підтвердження видалення (для уникнення видалення помилково)
-// Реалізувати можливість додавання нових користувачів
-// Бажано перевикористовувати форму редагування
-// При додаванні користувач з'являється у списку
-// Після перезавантаження сторінки всі зміни повинні зберігатись (використовувати localStorage)
-
-const submitButton = document.querySelector("#button-submit");
-const bodyTable = document.querySelector("#user-table");
-const formUser = document.querySelector("#user-form");
-const inputName = document.querySelector("#user-name");
-const inputEmail = document.querySelector("#user-email");
-
-formUser.addEventListener("submit", handleSubmit);
-
-function handleSubmit(event) {
-  event.preventDefault();
-
-  const formData = new FormData(formUser);
-  const valueName = formData.get("user-name");
-  const valueEmail = formData.get("user-email");
-  const userInputValue = [valueName, valueEmail];
-
-  localStorage.setItem("userValues", JSON.stringify(userInputValue));
-  const addedUserData = JSON.parse(localStorage.getItem("userValues"));
-
-  const row = document.createElement("tr");
-  row.innerHTML = `
-  <td>${addedUserData[0]}</td>
-  <td>${addedUserData[1]}</td>
-  <td>
-  <button class="view">View</button>
-  </td>
-  <td>
-   <button>Edit</button>
-    <button>Save</button>
-  </td>
-  <td>
-  <button class="remove">Remove</button>
-   </td>
-  `;
-
-  bodyTable.appendChild(row);
-
-  bodyTable.addEventListener("click", viewClick);
-
-  function viewClick(event) {
-    if (event.target.classList.contains("view")) {
-      alert(`Full Name: ${addedUserData[0]} \n E-mail: ${addedUserData[1]}`);
-    }
+const Person = function ({ name, age } = {}) {
+  if (!name || typeof name !== "string") {
+    alert("Incorrect name");
   }
-}
+
+  if (!age || typeof age !== "number" || age <= 0) {
+    alert("Incorrect age");
+  }
+
+  (this.name = name), (this.age = age);
+};
+
+Person.prototype.showData = function () {
+  alert(`${this.name} - ${this.age}  years old.`);
+};
+
+const user_1 = new Person({ name: "Kate", age: 30 });
+console.log(user_1);
+user_1.showData();
+
+const user_2 = new Person({
+  name: prompt("Enter your name"),
+  age: Number(prompt("Enter your age")),
+});
+console.log(user_2);
+user_2.showData();
+
+// Створити сутність автомобіля:
+
+// Характеристики автомобіля окремими властивостями
+
+// Методи:
+// Виведення на екран даних про цей автомобіль
+// Присвоєння цього автомобіля власнику (записати в автомобіль об'єкт власника)
+// Усі дані про людину та про автомобіль отримувати від користувача. Реалізувати необхідні перевірки
+//  на коректність введення (порожні поля, вік >18 в людини і т.д. у разі потреби).
+// Максимально використовувати функції
+
+const Car = function ({ brand, model, price, owner }) {
+  if (!brand || !model || typeof price <= 0 || typeof price !== "number") {
+    alert("Incorrect vehicle data");
+  }
+
+  if (!owner || owner.age < 18 || !owner instanceof Person) {
+    alert("The owner must be a human and over 18 years old ");
+  }
+
+  (this.brand = brand),
+    (this.model = model),
+    (this.price = price),
+    (this.owner = owner);
+};
+
+Car.prototype.showCar = function () {
+  if (this.owner.age >= 18) {
+    alert(
+      `Auto ${this.brand} ${this.model} cost ${this.price} $. Owner is ${this.owner.name} - ${this.owner.age} years old`
+    );
+  }
+};
+
+const audi = new Car({
+  brand: "Audi",
+  model: "Q5",
+  price: 55000,
+  owner: user_1,
+});
+console.log(audi);
+audi.showCar();
+
+const bmw = new Car({ brand: "BMW", model: "X6", price: 65000, owner: user_2 });
+console.log(bmw);
+bmw.showCar();
