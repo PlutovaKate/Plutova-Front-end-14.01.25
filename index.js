@@ -64,6 +64,10 @@ Car.prototype.showCar = function () {
     alert(
       `Auto ${this.brand} ${this.model} cost ${this.price} $. Owner is ${this.owner.name} - ${this.owner.age} years old`
     );
+  } else {
+    alert(
+      `Auto ${this.brand} ${this.model} cost ${this.price} $. Owner must be over 18 years old`
+    );
   }
 };
 
