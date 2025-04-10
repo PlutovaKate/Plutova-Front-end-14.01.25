@@ -1,103 +1,70 @@
-// ДЗ 27. CRUD додаток для users
+// ДЗ 31. Гамбургер
 
-// Створити CRUD-додаток (Create, Read, Update, Delete):
+// Мережа фастфудів пропонує кілька видів гамбургерів:
 
-// Виводиться список користувачів із кнопками “Edit”, “Remove”, “View” біля кожного користувача
-// (use data-id attributes або event delegation)
-// список користувачів отримувати з js-файлу (масив об'єктів / використовувати функції-конструктори – за бажанням)
+// маленький (50 тугриків, 20 калорій)
+// великий (100 тугриків, 40 калорій)
+// Гамбургер може бути з одним із кількох видів начинок:
 
-// При натисканні на кнопку “View” відкриваються дані користувача у блоці під списком
-// При натисканні на кнопку “Edit” з'являється можливість редагувати дані в блоці під списком.
-//  Дані зберігаються при натисканні на кнопку “Save” та оновлюють дані у списку
-// При натисканні на кнопку “Remove” користувач видаляється зі списку
-// Обов'язково підтвердження видалення (для уникнення видалення помилково)
-// Реалізувати можливість додавання нових користувачів
-// Бажано перевикористовувати форму редагування
-// При додаванні користувач з'являється у списку
-// Після перезавантаження сторінки всі зміни повинні зберігатись (використовувати localStorage)
+// сиром (+ 10 тугриків, + 20 калорій)
+// салатом (+ 20 тугриків, + 5 калорій)
+// картоплею (+ 15 тугриків, + 10 калорій)
+// Можна додати добавки:
 
-const form = document.querySelector("#user-form");
-const inputName = document.querySelector("#user-name");
-const inputEmail = document.querySelector("#user-email");
-const inputId = document.querySelector("#user-id");
-const tableBody = document.querySelector("#user-table");
-const userDetails = document.querySelector("#user-details");
-const formTitle = document.querySelector("#form-title");
+// посипати приправою (+ 15 тугриків, 0 калорій)
+// полити майонезом (+ 20 тугриків, + 5 калорій).
+// Напишіть програму, яка розраховує вартість та калорійність гамбургера.
+//  Використовуй ОВП підхід (підказка: необхідний клас Гамбургер, константи, способи вибору опцій і
+// розрахунку необхідних величин).
 
-window.addEventListener("load", renderTable);
+class Hamburger {
+  static SIZE_SMALL = { price: 50, calories: 20 };
+  static SIZE_BIG = { price: 100, calories: 40 };
 
-function getUsers() {
-  return JSON.parse(localStorage.getItem("users")) || [];
-}
+  static STUFFING_CHEESE = { price: 10, calories: 20 };
+  static STUFFING_SALAD = { price: 20, calories: 5 };
+  static STUFFING_POTATO = { price: 15, calories: 10 };
 
-function saveUsers(users) {
-  localStorage.setItem("users", JSON.stringify(users));
-}
+  static TOPPING_SAUCE = { price: 15, calories: 0 };
+  static TOPPING_MAYO = { price: 20, calories: 5 };
 
-function renderTable() {
-  tableBody.innerHTML = "";
-  const users = getUsers();
-  users.forEach((user) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${user.name}</td>
-      <td>${user.email}</td>
-      <td><button data-action="view" data-id="${user.id}">View</button></td>
-      <td><button data-action="edit" data-id="${user.id}">Edit</button></td>
-      <td><button data-action="delete" data-id="${user.id}">Delete</button></td>
-    `;
-    tableBody.appendChild(row);
-  });
-}
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const id = inputId.value || Date.now().toString();
-  const name = inputName.value.trim();
-  const email = inputEmail.value.trim();
-
-  let users = getUsers();
-  const existingIndex = users.findIndex((user) => user.id === id);
-
-  const userData = { id, name, email };
-
-  if (existingIndex > -1) {
-    users[existingIndex] = userData;
-  } else {
-    users.push(userData);
+  constructor(size, stuffing) {
+    this.size = size;
+    this.stuffing = stuffing;
+    this.toppings = [];
   }
 
-  saveUsers(users);
-  renderTable();
-  form.reset();
-  formTitle.textContent = "Add User";
-});
-
-tableBody.addEventListener("click", (event) => {
-  const action = event.target.dataset.action;
-  const id = event.target.dataset.id;
-  const users = getUsers();
-  const user = users.find((u) => u.id === id);
-
-  if (!user) return;
-
-  switch (action) {
-    case "view":
-      userDetails.innerHTML = `<strong>Name:</strong> ${user.name}<br><strong>Email:</strong> ${user.email}`;
-      break;
-    case "edit":
-      inputName.value = user.name;
-      inputEmail.value = user.email;
-      inputId.value = user.id;
-      formTitle.textContent = "Edit User";
-      break;
-    case "delete":
-      if (confirm(`Are you sure you want to delete ${user.name}?`)) {
-        const newUsers = users.filter((u) => u.id !== id);
-        saveUsers(newUsers);
-        renderTable();
-        userDetails.innerHTML = "";
-      }
-      break;
+  addTopping(topping) {
+    this.toppings.push(topping);
   }
-});
+
+  calculatePrice() {
+    let totalPrice = this.size.price + this.stuffing.price;
+    this.toppings.forEach((topping) => (totalPrice += topping.price));
+    return totalPrice;
+  }
+
+  calculateCalories() {
+    let totalCalories = this.size.calories + this.stuffing.calories;
+    this.toppings.forEach((topping) => (totalCalories += topping.calories));
+    return totalCalories;
+  }
+}
+
+// Приклад роботи коду:
+// маленький гамбургер із начинкою із сиру
+const hamburger = new Hamburger(
+  Hamburger.SIZE_SMALL,
+  Hamburger.STUFFING_CHEESE
+);
+console.log(hamburger);
+// Добавка з майонезу
+hamburger.addTopping(Hamburger.TOPPING_MAYO);
+// Запитаємо скільки там калорій
+console.log("Calories: " + hamburger.calculateCalories());
+// скільки коштує
+console.log("Price: " + hamburger.calculatePrice());
+// я тут передумав і вирішив додати ще приправу
+hamburger.addTopping(Hamburger.TOPPING_SAUCE);
+// А скільки тепер коштує?
+console.log("Price with sauce: " + hamburger.calculatePrice());
