@@ -9,14 +9,16 @@ body {
 table,
 th,
 td {
-  border: 1px solid grey;
+  border: 1px solid black;
   text-align: center;
+  border-collapse: collapse;
+  padding: 5px;
 }
 
-th,
 td {
-  padding: 10px;
+  min-width: 70px;
 }
+
 caption {
   font-size: 20px;
   color: blue;
@@ -37,4 +39,8 @@ input {
 
 button#button-submit {
   height: 30px;
+}
+
+#user-details {
+  margin-top: 20px;
 }

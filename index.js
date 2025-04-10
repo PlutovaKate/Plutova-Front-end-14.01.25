@@ -16,48 +16,88 @@
 // При додаванні користувач з'являється у списку
 // Після перезавантаження сторінки всі зміни повинні зберігатись (використовувати localStorage)
 
-const submitButton = document.querySelector("#button-submit");
-const bodyTable = document.querySelector("#user-table");
-const formUser = document.querySelector("#user-form");
+const form = document.querySelector("#user-form");
 const inputName = document.querySelector("#user-name");
 const inputEmail = document.querySelector("#user-email");
+const inputId = document.querySelector("#user-id");
+const tableBody = document.querySelector("#user-table");
+const userDetails = document.querySelector("#user-details");
+const formTitle = document.querySelector("#form-title");
 
-formUser.addEventListener("submit", handleSubmit);
+window.addEventListener("load", renderTable);
 
-function handleSubmit(event) {
-  event.preventDefault();
-
-  const formData = new FormData(formUser);
-  const valueName = formData.get("user-name");
-  const valueEmail = formData.get("user-email");
-  const userInputValue = [valueName, valueEmail];
-
-  localStorage.setItem("userValues", JSON.stringify(userInputValue));
-  const addedUserData = JSON.parse(localStorage.getItem("userValues"));
-
-  const row = document.createElement("tr");
-  row.innerHTML = `
-  <td>${addedUserData[0]}</td>
-  <td>${addedUserData[1]}</td>
-  <td>
-  <button class="view">View</button>
-  </td>
-  <td>
-   <button>Edit</button>
-    <button>Save</button>
-  </td>
-  <td>
-  <button class="remove">Remove</button>
-   </td>
-  `;
-
-  bodyTable.appendChild(row);
-
-  bodyTable.addEventListener("click", viewClick);
-
-  function viewClick(event) {
-    if (event.target.classList.contains("view")) {
-      alert(`Full Name: ${addedUserData[0]} \n E-mail: ${addedUserData[1]}`);
-    }
-  }
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users")) || [];
 }
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+function renderTable() {
+  tableBody.innerHTML = "";
+  const users = getUsers();
+  users.forEach((user) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${user.name}</td>
+      <td>${user.email}</td>
+      <td><button data-action="view" data-id="${user.id}">View</button></td>
+      <td><button data-action="edit" data-id="${user.id}">Edit</button></td>
+      <td><button data-action="delete" data-id="${user.id}">Delete</button></td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const id = inputId.value || Date.now().toString();
+  const name = inputName.value.trim();
+  const email = inputEmail.value.trim();
+
+  let users = getUsers();
+  const existingIndex = users.findIndex((user) => user.id === id);
+
+  const userData = { id, name, email };
+
+  if (existingIndex > -1) {
+    users[existingIndex] = userData;
+  } else {
+    users.push(userData);
+  }
+
+  saveUsers(users);
+  renderTable();
+  form.reset();
+  formTitle.textContent = "Add User";
+});
+
+tableBody.addEventListener("click", (event) => {
+  const action = event.target.dataset.action;
+  const id = event.target.dataset.id;
+  const users = getUsers();
+  const user = users.find((u) => u.id === id);
+
+  if (!user) return;
+
+  switch (action) {
+    case "view":
+      userDetails.innerHTML = `<strong>Name:</strong> ${user.name}<br><strong>Email:</strong> ${user.email}`;
+      break;
+    case "edit":
+      inputName.value = user.name;
+      inputEmail.value = user.email;
+      inputId.value = user.id;
+      formTitle.textContent = "Edit User";
+      break;
+    case "delete":
+      if (confirm(`Are you sure you want to delete ${user.name}?`)) {
+        const newUsers = users.filter((u) => u.id !== id);
+        saveUsers(newUsers);
+        renderTable();
+        userDetails.innerHTML = "";
+      }
+      break;
+  }
+});

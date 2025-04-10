@@ -3,39 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>CRUD Users</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <table>
       <caption>
-        Application for users
+        User Application
       </caption>
-
       <thead>
         <tr>
           <th>Full name</th>
-          <th>E-mail</th>
-          <th>Read</th>
-          <th>Update</th>
+          <th>Email</th>
+          <th>View</th>
+          <th>Edit</th>
           <th>Delete</th>
         </tr>
       </thead>
       <tbody id="user-table"></tbody>
     </table>
 
+    <h3 id="form-title">Add User</h3>
     <form id="user-form">
-      <label for="user-name"
-        >Full name
-        <input id="user-name" type="text" name="user-name" required />
+      <input type="hidden" id="user-id" />
+      <label>
+        Full name:
+        <input id="user-name" type="text" required />
       </label>
-
-      <label for="user-email"
-        >E-mail
-        <input id="user-email" name="user-email" type="email" required />
+      <label>
+        Email:
+        <input id="user-email" type="email" required />
       </label>
-      <button type="submit" id="button-submit">Save user</button>
+      <button type="submit">Save</button>
     </form>
+
+    <div id="user-details"></div>
 
     <script src="./index.js"></script>
   </body>
