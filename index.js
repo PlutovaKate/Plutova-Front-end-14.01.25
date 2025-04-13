@@ -1,103 +1,97 @@
-// ДЗ 27. CRUD додаток для users
+// ДЗ 30. Сутності багатоквартирного будинка
 
-// Створити CRUD-додаток (Create, Read, Update, Delete):
+// Створити та описати сутності Багатоквартирного будинку, квартири, мешканця.
+// Додати можливість створювати нові будинки на певну кількість квартир із певною кількістю мешканців
+// Кількість квартир у будинку та мешканців у кожній квартирі задає користувач на етапі заповнення форми
+// Реалізувати валідацію лише на порожні поля
+// Реалізувати функцію виведення даних по дому після створення
+// Візуально:
+// Форма для додавання будинку
+// Після її заповнення: запитуємо у користувача за допомогою форми дані про квартири в цьому будинку
+// Аналогічно для мешканців
+// Після заповнення – доступна кнопка Виводу даних про будинок
 
-// Виводиться список користувачів із кнопками “Edit”, “Remove”, “View” біля кожного користувача
-// (use data-id attributes або event delegation)
-// список користувачів отримувати з js-файлу (масив об'єктів / використовувати функції-конструктори – за бажанням)
+const inputQuantityOfFlats = document.querySelector("#quantityOfFlats");
+const houseButton = document.querySelector("#houseButton");
+const inputQuantityOfResidents = document.querySelector("#numberOfResidents");
+const flatButton = document.querySelector("#flatButton");
+const inputNameOfResident = document.querySelector("#nameOfResident");
+const residentButton = document.querySelector("#residentButton");
+const showInfoButton = document.querySelector("#showInfo");
+const infoContainer = document.querySelector("#infoContainer");
 
-// При натисканні на кнопку “View” відкриваються дані користувача у блоці під списком
-// При натисканні на кнопку “Edit” з'являється можливість редагувати дані в блоці під списком.
-//  Дані зберігаються при натисканні на кнопку “Save” та оновлюють дані у списку
-// При натисканні на кнопку “Remove” користувач видаляється зі списку
-// Обов'язково підтвердження видалення (для уникнення видалення помилково)
-// Реалізувати можливість додавання нових користувачів
-// Бажано перевикористовувати форму редагування
-// При додаванні користувач з'являється у списку
-// Після перезавантаження сторінки всі зміни повинні зберігатись (використовувати localStorage)
-
-const form = document.querySelector("#user-form");
-const inputName = document.querySelector("#user-name");
-const inputEmail = document.querySelector("#user-email");
-const inputId = document.querySelector("#user-id");
-const tableBody = document.querySelector("#user-table");
-const userDetails = document.querySelector("#user-details");
-const formTitle = document.querySelector("#form-title");
-
-window.addEventListener("load", renderTable);
-
-function getUsers() {
-  return JSON.parse(localStorage.getItem("users")) || [];
+class Resident {
+  constructor(name) {
+    this.name = name;
+  }
 }
 
-function saveUsers(users) {
-  localStorage.setItem("users", JSON.stringify(users));
-}
-
-function renderTable() {
-  tableBody.innerHTML = "";
-  const users = getUsers();
-  users.forEach((user) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${user.name}</td>
-      <td>${user.email}</td>
-      <td><button data-action="view" data-id="${user.id}">View</button></td>
-      <td><button data-action="edit" data-id="${user.id}">Edit</button></td>
-      <td><button data-action="delete" data-id="${user.id}">Delete</button></td>
-    `;
-    tableBody.appendChild(row);
-  });
-}
-
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const id = inputId.value || Date.now().toString();
-  const name = inputName.value.trim();
-  const email = inputEmail.value.trim();
-
-  let users = getUsers();
-  const existingIndex = users.findIndex((user) => user.id === id);
-
-  const userData = { id, name, email };
-
-  if (existingIndex > -1) {
-    users[existingIndex] = userData;
-  } else {
-    users.push(userData);
+class Flat {
+  constructor(residenceQuantity) {
+    this.residenceQuantity = residenceQuantity;
+    this.residents = [];
   }
 
-  saveUsers(users);
-  renderTable();
-  form.reset();
-  formTitle.textContent = "Add User";
-});
-
-tableBody.addEventListener("click", (event) => {
-  const action = event.target.dataset.action;
-  const id = event.target.dataset.id;
-  const users = getUsers();
-  const user = users.find((u) => u.id === id);
-
-  if (!user) return;
-
-  switch (action) {
-    case "view":
-      userDetails.innerHTML = `<strong>Name:</strong> ${user.name}<br><strong>Email:</strong> ${user.email}`;
-      break;
-    case "edit":
-      inputName.value = user.name;
-      inputEmail.value = user.email;
-      inputId.value = user.id;
-      formTitle.textContent = "Edit User";
-      break;
-    case "delete":
-      if (confirm(`Are you sure you want to delete ${user.name}?`)) {
-        const newUsers = users.filter((u) => u.id !== id);
-        saveUsers(newUsers);
-        renderTable();
-        userDetails.innerHTML = "";
-      }
-      break;
+  addResidents(resident) {
+    this.residents.push(resident);
   }
-});
+}
+
+class House {
+  constructor(flatsQuantity) {
+    this.flatsQuantity = flatsQuantity;
+    this.flats = [];
+  }
+
+  addFlats(flat) {
+    this.flats.push(flat);
+  }
+}
+
+/////////////////////////////////////////////////////////
+
+houseButton.addEventListener("click", getQuantityOfFlats);
+
+function getQuantityOfFlats(value) {
+  const valueQuantityFlats = Number(inputQuantityOfFlats.value);
+  if (!Number.isInteger(valueQuantityFlats) || valueQuantityFlats <= 0) {
+    alert("Quantity must be a number");
+  }
+
+  console.log(valueQuantityFlats);
+  const house_1 = new House({ flatsQuantity: valueQuantityFlats });
+
+  console.log(house_1);
+}
+
+flatButton.addEventListener("click", getQuantityOfResidence);
+
+function getQuantityOfResidence(value) {
+  const valueQuantityResidence = Number(inputQuantityOfResidents.value);
+  if (
+    !Number.isInteger(valueQuantityResidence) ||
+    valueQuantityResidence <= 0
+  ) {
+    alert("Quantity must be a number");
+  }
+  console.log(valueQuantityResidence);
+  const flat_1 = new Flat({ residenceQuantity: valueQuantityResidence });
+  console.log(flat_1);
+}
+
+residentButton.addEventListener("click", getNameResident);
+
+function getNameResident(value) {
+  const valueNameResident = inputNameOfResident.value;
+  console.log(valueNameResident);
+  const resident_1 = new Resident({ name: valueNameResident });
+  console.log(resident_1);
+}
+
+showInfoButton.addEventListener("click", showInfo);
+
+function showInfo() {
+  infoContainer.innerHTML = `<p>Quantity of Flats:</p>
+      <p>Quantity of Residents:</p>
+      <p>Names of the Residents:</p>`;
+}
