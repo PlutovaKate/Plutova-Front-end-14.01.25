@@ -5,7 +5,7 @@
 
 const startBtn = document.querySelector("#startBtn");
 const stopBtn = document.querySelector("#stopBtn");
-const outputSpan = document.querySelector("#output");
+const container = document.querySelector("#container");
 
 class Clock {
   constructor(element) {
@@ -26,19 +26,10 @@ class Clock {
       date.getSeconds().toString().padStart(2, 0),
     ].join("");
 
-    // console.log(timerStr);
-
     for (let index = 0; index < timerStr.length; index++) {
-      const digit = timerStr[index];
-      console.log(digit);
-
-      // this.element.style.backgroundImage = `url('img/${digit}.png')`;
+      container.innerHTML = `<img src=/img/${timerStr[0]}.png /> <img src=/img/${timerStr[1]}.png /> :
+       <img src=/img/${timerStr[2]}.png /> <img src=/img/${timerStr[3]}.png /> : <img src=/img/${timerStr[4]}.png /> <img src=/img/${timerStr[5]}.png />`;
     }
-    // const hours = date.getHours().toString().padStart(2, 0);
-    // const minutes = date.getMinutes().toString().padStart(2, 0);
-    // const seconds = date.getSeconds().toString().padStart(2, 0);
-
-    // this.element.textContent = `${hours}:${minutes}:${seconds}`;
   };
 
   stop = function () {
@@ -46,7 +37,7 @@ class Clock {
   };
 }
 
-const clock = new Clock(outputSpan);
+const clock = new Clock(container);
 
 startBtn.addEventListener("click", clock.setUp.bind(clock));
 stopBtn.addEventListener("click", clock.stop.bind(clock));

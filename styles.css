@@ -15,5 +15,13 @@ label {
 }
 
 button {
-  width: 100px;
+  width: 145px;
+}
+
+img {
+  width: 40px;
+}
+
+#container {
+  padding: 10px;
 }
