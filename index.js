@@ -1,97 +1,52 @@
-// ДЗ 30. Сутності багатоквартирного будинка
+// ДЗ 33. Електронний годинник
 
-// Створити та описати сутності Багатоквартирного будинку, квартири, мешканця.
-// Додати можливість створювати нові будинки на певну кількість квартир із певною кількістю мешканців
-// Кількість квартир у будинку та мешканців у кожній квартирі задає користувач на етапі заповнення форми
-// Реалізувати валідацію лише на порожні поля
-// Реалізувати функцію виведення даних по дому після створення
-// Візуально:
-// Форма для додавання будинку
-// Після її заповнення: запитуємо у користувача за допомогою форми дані про квартири в цьому будинку
-// Аналогічно для мешканців
-// Після заповнення – доступна кнопка Виводу даних про будинок
+// Реалізувати електронний годинник із зображеннями для кожної цифри та оновлення в DOM лише тих елементів,
+//  значення для яких змінені - інші повинні залишитися недоторканими.
 
-const inputQuantityOfFlats = document.querySelector("#quantityOfFlats");
-const houseButton = document.querySelector("#houseButton");
-const inputQuantityOfResidents = document.querySelector("#numberOfResidents");
-const flatButton = document.querySelector("#flatButton");
-const inputNameOfResident = document.querySelector("#nameOfResident");
-const residentButton = document.querySelector("#residentButton");
-const showInfoButton = document.querySelector("#showInfo");
-const infoContainer = document.querySelector("#infoContainer");
+const startBtn = document.querySelector("#startBtn");
+const stopBtn = document.querySelector("#stopBtn");
+const outputSpan = document.querySelector("#output");
 
-class Resident {
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-class Flat {
-  constructor(residenceQuantity) {
-    this.residenceQuantity = residenceQuantity;
-    this.residents = [];
+class Clock {
+  constructor(element) {
+    this.element = element;
+    this.timerId = null;
   }
 
-  addResidents(resident) {
-    this.residents.push(resident);
-  }
+  setUp = function () {
+    this.timerId = setInterval(this.updateCounter.bind(this), 1000);
+  };
+
+  updateCounter = function () {
+    const date = new Date();
+
+    const timerStr = [
+      date.getHours().toString().padStart(2, 0),
+      date.getMinutes().toString().padStart(2, 0),
+      date.getSeconds().toString().padStart(2, 0),
+    ].join("");
+
+    // console.log(timerStr);
+
+    for (let index = 0; index < timerStr.length; index++) {
+      const digit = timerStr[index];
+      console.log(digit);
+
+      // this.element.style.backgroundImage = `url('img/${digit}.png')`;
+    }
+    // const hours = date.getHours().toString().padStart(2, 0);
+    // const minutes = date.getMinutes().toString().padStart(2, 0);
+    // const seconds = date.getSeconds().toString().padStart(2, 0);
+
+    // this.element.textContent = `${hours}:${minutes}:${seconds}`;
+  };
+
+  stop = function () {
+    clearInterval(this.timerId);
+  };
 }
 
-class House {
-  constructor(flatsQuantity) {
-    this.flatsQuantity = flatsQuantity;
-    this.flats = [];
-  }
+const clock = new Clock(outputSpan);
 
-  addFlats(flat) {
-    this.flats.push(flat);
-  }
-}
-
-/////////////////////////////////////////////////////////
-
-houseButton.addEventListener("click", getQuantityOfFlats);
-
-function getQuantityOfFlats(value) {
-  const valueQuantityFlats = Number(inputQuantityOfFlats.value);
-  if (!Number.isInteger(valueQuantityFlats) || valueQuantityFlats <= 0) {
-    alert("Quantity must be a number");
-  }
-
-  console.log(valueQuantityFlats);
-  const house_1 = new House({ flatsQuantity: valueQuantityFlats });
-
-  console.log(house_1);
-}
-
-flatButton.addEventListener("click", getQuantityOfResidence);
-
-function getQuantityOfResidence(value) {
-  const valueQuantityResidence = Number(inputQuantityOfResidents.value);
-  if (
-    !Number.isInteger(valueQuantityResidence) ||
-    valueQuantityResidence <= 0
-  ) {
-    alert("Quantity must be a number");
-  }
-  console.log(valueQuantityResidence);
-  const flat_1 = new Flat({ residenceQuantity: valueQuantityResidence });
-  console.log(flat_1);
-}
-
-residentButton.addEventListener("click", getNameResident);
-
-function getNameResident(value) {
-  const valueNameResident = inputNameOfResident.value;
-  console.log(valueNameResident);
-  const resident_1 = new Resident({ name: valueNameResident });
-  console.log(resident_1);
-}
-
-showInfoButton.addEventListener("click", showInfo);
-
-function showInfo() {
-  infoContainer.innerHTML = `<p>Quantity of Flats:</p>
-      <p>Quantity of Residents:</p>
-      <p>Names of the Residents:</p>`;
-}
+startBtn.addEventListener("click", clock.setUp.bind(clock));
+stopBtn.addEventListener("click", clock.stop.bind(clock));

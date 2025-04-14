@@ -3,42 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Appartment building</title>
+    <title>Clock</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <form>
-      <h1>House</h1>
-      <label for="quantityOfFlats">
-        Enter quantity of flats
-        <input id="quantityOfFlats" name="quantityOfFlats" type="text" />
-      </label>
-      <button id="houseButton" type="button">Next</button>
-    </form>
-    <form>
-      <h1>Flat 1</h1>
-      <label for="numberOfResidents">
-        Enter quantity of residents
-        <input id="numberOfResidents" name="numberOfResidents" type="text" />
-      </label>
-      <button id="flatButton" type="button">Next</button>
-    </form>
+    <button type="button" id="startBtn">Start</button>
+    <span id="output">0</span>
+    <button type="button" id="stopBtn">Stop</button>
 
-    <form>
-      <h1>Enter name of resident</h1>
-      <label for="nameOfResident">
-        Enter name of resident
-        <input id="nameOfResident" name="nameOfResident" type="text" />
-      </label>
-      <button id="residentButton" type="button">Next</button>
-    </form>
-
-    <button id="showInfo" type="button">Show info</button>
-    <div id="infoContainer">
-      <!-- <p>Quantity of Flats:</p>
-      <p>Quantity of Residents:</p>
-      <p>Names of the Residents:</p> -->
-    </div>
     <script src="./index.js"></script>
   </body>
 </html>
