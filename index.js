@@ -27,8 +27,8 @@ class Clock {
     ].join("");
 
     for (let index = 0; index < timerStr.length; index++) {
-      container.innerHTML = `<img src=/img/${timerStr[0]}.png /> <img src=/img/${timerStr[1]}.png /> :
-       <img src=/img/${timerStr[2]}.png /> <img src=/img/${timerStr[3]}.png /> : <img src=/img/${timerStr[4]}.png /> <img src=/img/${timerStr[5]}.png />`;
+      container.innerHTML = `<img src=./img/${timerStr[0]}.png /> <img src=./img/${timerStr[1]}.png /> :
+       <img src=./img/${timerStr[2]}.png /> <img src=./img/${timerStr[3]}.png /> : <img src=./img/${timerStr[4]}.png /> <img src=./img/${timerStr[5]}.png />`;
     }
   };
 
