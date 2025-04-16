@@ -11,14 +11,21 @@
 // Аналогічно для мешканців
 // Після заповнення – доступна кнопка Виводу даних про будинок
 
-const inputQuantityOfFlats = document.querySelector("#quantityOfFlats");
-const houseButton = document.querySelector("#houseButton");
-const inputQuantityOfResidents = document.querySelector("#numberOfResidents");
-const flatButton = document.querySelector("#flatButton");
-const inputNameOfResident = document.querySelector("#nameOfResident");
-const residentButton = document.querySelector("#residentButton");
-const showInfoButton = document.querySelector("#showInfo");
-const infoContainer = document.querySelector("#infoContainer");
+const houseForm = document.getElementById("houseForm");
+const apartmentsFormContainer = document.getElementById(
+  "apartmentsFormContainer"
+);
+const resultContainer = document.getElementById("resultContainer");
+const housesList = document.getElementById("housesList");
+const houseFormContainer = document.getElementById("houseFormContainer");
+const quantityOfFlats = document.getElementById("quantityOfFlats");
+const numberOfResidents = document.getElementById("numberOfResidents");
+
+let houses = [];
+let flatCount = 0;
+let residentsPerFlat = 0;
+let houseIdCounter = 1;
+let currentHouse;
 
 class Resident {
   constructor(name) {
@@ -27,8 +34,7 @@ class Resident {
 }
 
 class Flat {
-  constructor(residenceQuantity) {
-    this.residenceQuantity = residenceQuantity;
+  constructor() {
     this.residents = [];
   }
 
@@ -38,60 +44,133 @@ class Flat {
 }
 
 class House {
-  constructor(flatsQuantity) {
-    this.flatsQuantity = flatsQuantity;
+  constructor(id) {
+    this.id = id;
     this.flats = [];
   }
 
   addFlats(flat) {
     this.flats.push(flat);
   }
+
+  getHouseInfo() {
+    let info = `🏠 House № ${this.id} consists of ${this.flats.length} flats: \n`;
+    this.flats.forEach((flat, i) => {
+      info += `Flat ${i + 1} contains ${flat.residents.length} residents:\n`;
+      flat.residents.forEach((res) => {
+        info += `- ${res.name}\n`;
+      });
+    });
+    return info;
+  }
 }
 
-/////////////////////////////////////////////////////////
+houseForm.addEventListener("submit", getDataFromHouseForm);
 
-houseButton.addEventListener("click", getQuantityOfFlats);
+function getDataFromHouseForm(event) {
+  event.preventDefault();
 
-function getQuantityOfFlats(value) {
-  const valueQuantityFlats = Number(inputQuantityOfFlats.value);
-  if (!Number.isInteger(valueQuantityFlats) || valueQuantityFlats <= 0) {
-    alert("Quantity must be a number");
+  flatCount = parseInt(quantityOfFlats.value, 10);
+  residentsPerFlat = parseInt(numberOfResidents.value, 10);
+
+  if (!flatCount || !residentsPerFlat) {
+    alert("Please fill in all fields");
+    return;
   }
 
-  console.log(valueQuantityFlats);
-  const house_1 = new House({ flatsQuantity: valueQuantityFlats });
-
-  console.log(house_1);
+  currentHouse = new House(houseIdCounter++);
+  generateFlatForm(flatCount, residentsPerFlat);
 }
 
-flatButton.addEventListener("click", getQuantityOfResidence);
+function generateFlatForm(flatCount, residentsPerFlat) {
+  houseFormContainer.style.display = "none";
 
-function getQuantityOfResidence(value) {
-  const valueQuantityResidence = Number(inputQuantityOfResidents.value);
-  if (
-    !Number.isInteger(valueQuantityResidence) ||
-    valueQuantityResidence <= 0
-  ) {
-    alert("Quantity must be a number");
+  apartmentsFormContainer.innerHTML = `<h2>Fill in the residents for the House №${currentHouse.id}</h2><form id="residentsForm"></form>`;
+  const residentsForm = document.getElementById("residentsForm");
+
+  for (let index = 0; index < flatCount; index++) {
+    const flatDiv = document.createElement("div");
+    flatDiv.innerHTML = `<h3>Flat ${index + 1}</h3>`;
+
+    for (let j = 0; j < residentsPerFlat; j++) {
+      flatDiv.innerHTML += `
+        <label>Resident ${j + 1}:
+          <input type="text" name="apt${index}_res${j}" required>
+        </label><br>`;
+    }
+
+    residentsForm.appendChild(flatDiv);
   }
-  console.log(valueQuantityResidence);
-  const flat_1 = new Flat({ residenceQuantity: valueQuantityResidence });
-  console.log(flat_1);
+
+  residentsForm.innerHTML += `
+    <button type="submit">Save house</button>
+    <button type="button" onclick="cancelHouseCreation()">Return</button>
+  `;
+
+  residentsForm.addEventListener("submit", onSaveHouse);
+
+  function onSaveHouse(event) {
+    event.preventDefault();
+    const formData = new FormData(residentsForm);
+
+    for (let index = 0; index < flatCount; index++) {
+      const flat = new Flat();
+
+      for (let j = 0; j < residentsPerFlat; j++) {
+        const name = formData.get(`apt${index}_res${j}`);
+        if (!name.trim()) {
+          alert("Name must be filled in");
+          return;
+        }
+        const resident = new Resident(name);
+        flat.addResidents(resident);
+      }
+      currentHouse.addFlats(flat);
+    }
+
+    houses.push(currentHouse);
+    currentHouse = null;
+    apartmentsFormContainer.innerHTML = "";
+    houseForm.reset();
+    houseFormContainer.style.display = "block";
+    renderHousesList();
+  }
 }
 
-residentButton.addEventListener("click", getNameResident);
+function renderHousesList() {
+  if (houses.length === 0) {
+    housesList.innerHTML = "";
+    return;
+  }
 
-function getNameResident(value) {
-  const valueNameResident = inputNameOfResident.value;
-  console.log(valueNameResident);
-  const resident_1 = new Resident({ name: valueNameResident });
-  console.log(resident_1);
+  let html = `<h2>List of houses</h2><ul>`;
+  houses.forEach((house) => {
+    html += `<li>
+      House №${house.id} — flats: ${house.flats.length}
+      <button onclick="showHouseInfo(${house.id})">Details</button>
+    </li>`;
+  });
+  html += `</ul>`;
+  housesList.innerHTML = html;
 }
 
-showInfoButton.addEventListener("click", showInfo);
+function showHouseInfo(houseId) {
+  const house = houses.find((h) => h.id === houseId);
+  if (house) {
+    resultContainer.innerHTML = `
+      <h2>Information about the house #${house.id}</h2>
+      <pre>${house.getHouseInfo()}</pre>
+      <button onclick="closeHouseInfo()">Close</button>
+    `;
+  }
+}
 
-function showInfo() {
-  infoContainer.innerHTML = `<p>Quantity of Flats:</p>
-      <p>Quantity of Residents:</p>
-      <p>Names of the Residents:</p>`;
+function closeHouseInfo() {
+  resultContainer.innerHTML = "";
+}
+
+function cancelHouseCreation() {
+  currentHouse = null;
+  houseFormContainer.style.display = "block";
+  apartmentsFormContainer.innerHTML = "";
 }

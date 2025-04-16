@@ -7,38 +7,36 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <form>
-      <h1>House</h1>
-      <label for="quantityOfFlats">
-        Enter quantity of flats
-        <input id="quantityOfFlats" name="quantityOfFlats" type="text" />
-      </label>
-      <button id="houseButton" type="button">Next</button>
-    </form>
-    <form>
-      <h1>Flat 1</h1>
-      <label for="numberOfResidents">
-        Enter quantity of residents
-        <input id="numberOfResidents" name="numberOfResidents" type="text" />
-      </label>
-      <button id="flatButton" type="button">Next</button>
-    </form>
+    <div id="houseFormContainer">
+      <h1>Create house</h1>
+      <form id="houseForm">
+        <label for="quantityOfFlats">
+          Enter quantity of flats
+          <input
+            id="quantityOfFlats"
+            name="quantityOfFlats"
+            type="number"
+            required
+          />
+        </label>
 
-    <form>
-      <h1>Enter name of resident</h1>
-      <label for="nameOfResident">
-        Enter name of resident
-        <input id="nameOfResident" name="nameOfResident" type="text" />
-      </label>
-      <button id="residentButton" type="button">Next</button>
-    </form>
-
-    <button id="showInfo" type="button">Show info</button>
-    <div id="infoContainer">
-      <!-- <p>Quantity of Flats:</p>
-      <p>Quantity of Residents:</p>
-      <p>Names of the Residents:</p> -->
+        <label for="numberOfResidents">
+          Enter quantity of residents in each flat
+          <input
+            id="numberOfResidents"
+            name="numberOfResidents"
+            type="number"
+            required
+          />
+        </label>
+        <button id="createHouseBtn" type="submit">Create House</button>
+      </form>
     </div>
+
+    <div id="apartmentsFormContainer"></div>
+    <div id="resultContainer"></div>
+    <div id="housesList"></div>
+
     <script src="./index.js"></script>
   </body>
 </html>
