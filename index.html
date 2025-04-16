@@ -3,39 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Appartment building</title>
+    <title>Slider</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div id="houseFormContainer">
-      <h1>Create house</h1>
-      <form id="houseForm">
-        <label for="quantityOfFlats">
-          Enter quantity of flats
-          <input
-            id="quantityOfFlats"
-            name="quantityOfFlats"
-            type="number"
-            required
-          />
-        </label>
-
-        <label for="numberOfResidents">
-          Enter quantity of residents in each flat
-          <input
-            id="numberOfResidents"
-            name="numberOfResidents"
-            type="number"
-            required
-          />
-        </label>
-        <button id="createHouseBtn" type="submit">Create House</button>
-      </form>
+    <img id="img" />
+    <div>
+      <button id="prevBtn" type="button">Previous</button>
+      <button id="nextBtn" type="button">Next</button>
     </div>
-
-    <div id="apartmentsFormContainer"></div>
-    <div id="resultContainer"></div>
-    <div id="housesList"></div>
 
     <script src="./index.js"></script>
   </body>
