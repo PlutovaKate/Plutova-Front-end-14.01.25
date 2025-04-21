@@ -1,48 +1,84 @@
-// ДЗ 34. Слайдер з таймером
+// ДЗ 35. Чат-бот з браузером
 
-// Реалізувати слайдер
+// Навчити браузер відповідати через 1-10 секунд після повідомлення.
 
-// Змінює кожні 3 секунди зображення (масив із 5+ зображень)
-// Реалізувати перемикання за стрілками.
-// Слайдер має працювати циклічно: після досягнення останнього зображення і
-//  при натисканні на кнопку Next - показувати перше зображення
-// Слайдер пишемо самі, варіанти з інтернету не використовуємо
+// Відповіді генеруються випадково з підготовленого масиву відповідей
 
-const images = [
-  "./img/1.jpg",
-  "./img/2.jpg",
-  "./img/3.jpg",
-  "./img/4.jpg",
-  "./img/5.jpg",
-  "./img/6.jpg",
-  "./img/7.jpg",
-  "./img/8.jpg",
-  "./img/9.jpg",
-  "./img/10.jpg",
+// Браузер може будь-якої миті припинити діалог - інформація про це повинна вивестися користувачу
+
+// Користувач може будь-якої миті припинити діалог написавши повідомлення, наприклад, “My watch has ended”.
+//  Тоді браузер повинен ввічливо попрощатися.
+
+// UI – примітивний
+
+const answers = [
+  "Напишіть своє питання",
+  "Я можу вам допомогти",
+  "Опишіть вашу проблему конкретніше",
+  "Цікаво!",
+  "Цікаво, а що ви думаєте з цього приводу?",
+  "Ваша думка для мене важлива",
+  "Як я можу вам допомогти?",
+  "Я допоможу вам вирішити це питання",
+  "Вже шукаю інформацію з приводу вашого питання",
+  "Радий тебе бачити!",
 ];
 
-let currentImage = 0;
+const form = document.getElementById("form");
+const ChatBotText = document.getElementById("ChatBotText");
+const input = document.getElementById("userText");
+let dialogActive = true;
 
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-
-const img = document.getElementById("img");
-img.setAttribute("src", images[currentImage]);
-
-nextBtn.addEventListener("click", showNextImg);
-
-function showNextImg() {
-  currentImage = (currentImage + 1) % images.length;
-  img.src = images[currentImage];
-  console.log(img.src);
+function getRandomAnswer() {
+  const index = Math.floor(Math.random() * answers.length);
+  return answers[index];
 }
 
-prevBtn.addEventListener("click", showPrevImg);
-
-function showPrevImg() {
-  currentImage = (currentImage - 1 + images.length) % images.length;
-  img.src = images[currentImage];
-  console.log(img.src);
+function getRandomTime(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-setInterval(showNextImg, 3000);
+function browserQuit() {
+  return Math.random() < 0.1;
+}
+
+function addMessage(message, sender) {
+  const div = document.createElement("div");
+  div.style.marginBottom = "10px";
+  div.textContent = `${sender}: ${message}`;
+  ChatBotText.appendChild(div);
+}
+
+form.addEventListener("submit", onFormSubmit);
+
+function onFormSubmit(event) {
+  event.preventDefault();
+
+  const userMessage = input.value.trim();
+  if (!userMessage || !dialogActive) return;
+
+  addMessage(userMessage, "Користувач");
+
+  if (userMessage === "My watch has ended") {
+    addMessage("Дякую за спілкування! До зустрічі!", "Чатбот");
+    dialogActive = false;
+    return;
+  }
+
+  input.value = "";
+
+  const randomTime = getRandomTime(1, 10) * 1000;
+
+  setTimeout(() => {
+    if (!dialogActive) return;
+
+    if (browserQuit()) {
+      addMessage("Вибач, я більше не можу продовжити діалог.", "Чатбот");
+      dialogActive = false;
+      return;
+    }
+
+    const botMessage = getRandomAnswer();
+    addMessage(botMessage, "Чатбот");
+  }, randomTime);
+}

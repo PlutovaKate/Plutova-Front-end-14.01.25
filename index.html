@@ -3,15 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Slider</title>
+    <title>Chatbot</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <img id="img" />
-    <div>
-      <button id="prevBtn" type="button">Previous</button>
-      <button id="nextBtn" type="button">Next</button>
-    </div>
+    <div id="ChatBotText"></div>
+    <form id="form">
+      <label for="userText">
+        <input id="userText" type="text" name="userText" />
+      </label>
+      <button id="userBtn" type="submit">Відправити повідомлення</button>
+    </form>
 
     <script src="./index.js"></script>
   </body>
