@@ -3,35 +3,9 @@
 }
 
 body {
-  padding: 20px;
+  padding: 50px;
 }
 
-#ChatBotText {
-  width: 400px;
-  min-height: 400px;
-  background-color: beige;
-  border: 1px, solid, black;
-  margin-bottom: 20px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-#userText {
-  height: 40px;
-  width: 300px;
-}
-button {
-  width: 100px;
-}
-
-form {
-  display: flex;
-  justify-content: center;
-}
-
-.user {
-  color: blue;
-}
-.bot {
-  color: green;
+.wrap {
+  width: 450px;
 }

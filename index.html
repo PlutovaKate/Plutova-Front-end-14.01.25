@@ -3,18 +3,166 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chatbot</title>
+    <title>Bootstrap,Moment</title>
+    <link
+      rel="stylesheet"
+      href="node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div id="ChatBotText"></div>
-    <form id="form">
-      <label for="userText">
-        <input id="userText" type="text" name="userText" />
-      </label>
-      <button id="userBtn" type="submit">Відправити повідомлення</button>
-    </form>
+    <!-- Button trigger modal -->
+    <button
+      type="button"
+      class="btn btn-success"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      data-bs-placement="top"
+      data-bs-custom-class="custom-tooltip"
+      data-bs-title="Open modal"
+    >
+      Click me and open modal
+    </button>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Email address</label
+              >
+              <input
+                type="email"
+                class="form-control"
+                id="exampleFormControlInput1"
+                placeholder="name@example.com"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlTextarea1" class="form-label"
+                >Example textarea</label
+              >
+              <textarea
+                class="form-control"
+                id="exampleFormControlTextarea1"
+                rows="3"
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert -->
+    <button
+      class="btn btn-danger"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#collapseExample"
+      aria-expanded="false"
+      aria-controls="collapseExample"
+      data-bs-title="Show alert"
+    >
+      Button alert
+    </button>
+
+    <div class="collapse mt-2" id="collapseExample">
+      <div class="alert alert-danger" role="alert">
+        A simple danger alert—check it out!
+      </div>
+    </div>
+
+    <div class="wrap mt-5">
+      <button class="btn btn-info" id="momentBtn" type="button">
+        Мій День народження
+      </button>
+      <input id="momentInput" type="text" />
+
+      <div class="wrap mt-4">
+        <label>
+          Введіть дату вашого народження
+          <textarea
+            id="momentTextArea"
+            rows="1"
+            cols="30"
+            placeholder="Наприклад: 02.07.1987"
+          ></textarea>
+        </label>
+        <button class="btn btn-secondary" id="convertBtn" type="button">
+          Конвертувати
+        </button>
+        <p></p>
+      </div>
+    </div>
 
     <script src="./index.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="node_modules/moment/min/moment.min.js"></script>
+    <script src="node_modules/moment/locale/uk.js"></script>
+
+    <script>
+      const tooltipTriggerList = document.querySelectorAll("[data-bs-title]");
+      const tooltipList = [...tooltipTriggerList].map(
+        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+      );
+    </script>
+
+    <script>
+      const button = document.querySelector("#momentBtn");
+      const input = document.querySelector("#momentInput");
+
+      const momentTextArea = document.querySelector("#momentTextArea");
+      const convertBtn = document.querySelector("#convertBtn");
+      const convertDate = document.querySelector("p");
+
+      moment.locale("uk");
+
+      convertBtn.addEventListener("click", (event) => {
+        const textAreaValue = momentTextArea.value.trim();
+        const birthdate = moment(textAreaValue, "DD.MM.YYYY");
+
+        const convertBirthdate = birthdate.format("dddd, DD MMMM YYYY");
+
+        const formattedDate = birthdate.format("MMMM D, YYYY");
+        const age = moment().diff(birthdate, "years");
+
+        if (convertBirthdate === "Invalid date") {
+          convertDate.textContent = "Помилка: Не правильний формат дати";
+        } else {
+          convertDate.textContent = `Ви народились у ${convertBirthdate} і вам ${age} років`;
+        }
+      });
+
+      button.addEventListener("click", () => {
+        input.value = moment([1987, 6, 2]).format("LL");
+      });
+    </script>
   </body>
 </html>
