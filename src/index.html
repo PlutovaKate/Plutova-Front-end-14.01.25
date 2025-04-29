@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Білд Gulp</title>
+    <link rel="stylesheet" href="../dist/bundle.css" />
+  </head>
+  <body>
+    <button class="btn_orders" type="button">My Orders</button>
+    <div>
+      <h2 class="title-list">List of Orders</h2>
+      <ul class="orders-list"></ul>
+    </div>
+    <form action="/signUp" method="get">
+      <h1>Product registration form</h1>
+
+      <label for="fullName">Full name:</label>
+      <input type="text" id="fullName" name="fullName" required />
+
+      <label for="city">Choose your city:</label>
+      <select id="city" name="city" required>
+        <option value="Dnipro">Dnipro</option>
+        <option value="Kyiv">Kyiv</option>
+        <option value="Lviv">Lviv</option>
+        <option value="Odessa">Odessa</option>
+      </select>
+
+      <label for="post">Choose your post:</label>
+      <select id="post" name="post" required>
+        <option value="Post_1">Post_1</option>
+        <option value="Post_2">Post_2</option>
+        <option value="Post_3">Post_3</option>
+        <option value="Post_4">Post_4</option>
+      </select>
+
+      <div>
+        <p>Select payment method:</p>
+        <div>
+          <input
+            type="radio"
+            name="payment"
+            value="pre-payment"
+            id="pre-payment"
+            required
+          />
+          <label for="pre-payment">Pre-payment</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            name="payment"
+            value="post-payment"
+            id="post-payment"
+            required
+          />
+          <label for="post-payment">Post-payment</label>
+        </div>
+      </div>
+
+      <div>
+        <label for="quantity">Quantity:</label>
+        <input
+          type="number"
+          step="1"
+          min="1"
+          max="10"
+          id="quantity"
+          name="quantity"
+          value="1"
+        />
+      </div>
+      <div class="price">
+        <p>Total price:</p>
+        <p id="total-price">1000</p>
+      </div>
+
+      <div class="date">
+        <p>Date:</p>
+        <p class="date-today"></p>
+      </div>
+
+      <label for="comment">Enter your comment:</label>
+      <textarea id="comment" name="comment" rows="4" cols="30"> </textarea>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <script type="module" src="../dist/all-min.js"></script>
+  </body>
+</html>
